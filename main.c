@@ -4,11 +4,11 @@ int main() {
     char test = 'a';
 
     printf("Hello, World!\n");
-    scanf(" %c", test);
+    scanf(" %c", &test);
     if (test == 'a') {
         printf("Test is 1");
     } else {
-        printf("Test is %d", test);
+        printf("Test is %c", test);
     }
     return 0;
 }
