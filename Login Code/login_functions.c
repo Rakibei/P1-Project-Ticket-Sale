@@ -3,14 +3,9 @@
 #include <string.h>
 #include "login_functions.h"
 
-struct Account {
-    char username[30];
-    char password[20];
-};
-
 int login(void) {
     char username[30],password[20];
-    int succes;
+    int success;
 
     FILE *sc;
     sc = fopen("Login.txt","r");
@@ -29,7 +24,7 @@ int login(void) {
     while(fread(&acc,sizeof(acc),1,sc)) {
         if(strcmp(username,acc.username)==0 && strcmp(password,acc.password)==0) {
             printf("\nSuccessful Login\n");
-            succes = 1;
+            success = 1;
         } else {
             printf("Username or Password is incorrect\n");
             printf("Username: %s and acc.username: %s\n", username, acc.username);
@@ -38,10 +33,11 @@ int login(void) {
     }
 
     fclose(sc);
-    return succes;
+    return success;
 }
 
 void regis(void) {
+    char rpassword[20];
     FILE *sc;
 
     sc=fopen("login.txt","w");
@@ -57,12 +53,19 @@ void regis(void) {
     scanf(" %s",acc.username);
     printf("Enter Password:\n");
     scanf(" %s",acc.password);
+    printf("Re-enter Password:\n");
+    scanf(" %s", rpassword);
 
+    if (strcmp(rpassword,acc.password)==0) {
+        fwrite(&acc,sizeof(acc),1,sc);
+        fclose(sc);
+        printf("\nRegistration Successful!\n");
+        s_option();
+    } else if (strcmp(rpassword,acc.password)!=0) {
+        printf("Passwords did not match\n");
+        regis();
+    }
 
-    fwrite(&acc,sizeof(acc),1,sc);
-    fclose(sc);
-    printf("\nRegistration Successful!\n");
-    s_option();
 }
 
 void s_option() {

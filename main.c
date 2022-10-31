@@ -1,9 +1,6 @@
 #include "Login Code/login_functions.h"
 
-struct Account {
-    char username[30];
-    char password[20];
-};
+struct Account;
 
 int main() {
     s_option();

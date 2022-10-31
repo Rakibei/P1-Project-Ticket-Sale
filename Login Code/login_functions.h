@@ -5,6 +5,15 @@
 #ifndef P1_PROJECT_FUNCTIONS_H
 #define P1_PROJECT_FUNCTIONS_H
 
+//Structures
+
+struct Account {
+    char username[30];
+    char password[20];
+};
+
+//Functions
+
 int login(void);
 
 void regis(void);
