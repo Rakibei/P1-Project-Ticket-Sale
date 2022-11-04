@@ -5,9 +5,10 @@ struct Account;
 
 int main() {
     int success = 0;
-    s_option(success);
-
-    menu(success);
-
+    success = s_option(success);
+    printf("%i",success);
+    if (success == 1) {
+        menu();
+    }
     return 0;
 }

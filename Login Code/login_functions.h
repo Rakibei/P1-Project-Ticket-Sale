@@ -18,6 +18,6 @@ int login(int);
 
 void regis(void);
 
-void s_option();
+int s_option(int);
 
 #endif //P1_PROJECT_FUNCTIONS_H

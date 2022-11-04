@@ -68,13 +68,14 @@ void regis(void) {
 
 }
 
-void s_option(int x) {
+int s_option(int x) {
     int option;
 
     printf("Press 1 to Login\nPress 2 to Register\n");
     scanf("%i", &option);
     if (option == 1) {
-        login(x);
+        x = login(x);
+        return x;
     } else if (option == 2){
         regis();
     } else {
