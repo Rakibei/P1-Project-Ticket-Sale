@@ -3,7 +3,7 @@
 #include <string.h>
 #include "login_functions.h"
 
-int login(void) {
+int login(int i) {
     char username[30],password[20];
     int success;
 
@@ -68,13 +68,13 @@ void regis(void) {
 
 }
 
-void s_option() {
+void s_option(int x) {
     int option;
 
     printf("Press 1 to Login\nPress 2 to Register\n");
     scanf("%i", &option);
     if (option == 1) {
-        login();
+        login(x);
     } else if (option == 2){
         regis();
     } else {

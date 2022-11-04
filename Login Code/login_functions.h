@@ -14,7 +14,7 @@ struct Account {
 
 //Functions
 
-int login(void);
+int login(int);
 
 void regis(void);
 
