@@ -16,6 +16,6 @@ int type_of_ticket(int *ticket_type, int *ticket_choice,int *total,int *number_o
 
 void extras(int *extras_type, int *extras_choice,int *total);
 
-int payment(int *total, int *checkout_choice, int balance);
+int payment(int total, int *checkout_choice, int balance, int *ticket_type, int *number_of_tickets);
 
-void run_purchase_tickets(int choice, int number_of_tickets, int amount_choice, int ticket_type, int ticket_choice, int total, int checkout_choice, int balance);
+void run_purchase_tickets(int choice);
