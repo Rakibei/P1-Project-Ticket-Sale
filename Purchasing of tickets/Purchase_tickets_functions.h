@@ -12,7 +12,7 @@ int purchase_tickets(int *choice);
 
 int amount_of_tickets(int *number_of_tickets, int *amount_choice);
 
-int type_of_ticket(int *ticket_type, int *ticket_choice,int *total,int *number_of_tickets);
+int type_of_ticket(int *ticket_type, int *ticket_choice);
 
 void extras(int *extras_type, int *extras_choice,int *total);
 

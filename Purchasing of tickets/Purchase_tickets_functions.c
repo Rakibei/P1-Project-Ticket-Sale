@@ -52,11 +52,12 @@ int amount_of_tickets(int *number_of_tickets, int *amount_choice){
  * @param number_of_tickets pointer from "amount_of_tickets", is the amount of tickets
  * @return returns ticket choice which decides to continue or go back
  */
-int type_of_ticket(int *ticket_type, int *ticket_choice,int *total, int *number_of_tickets){
+int type_of_ticket(int *ticket_type, int *ticket_choice){
     printf("Choose your type of ticket(s).\n");
     printf("Press 1 for normal ticket(s) or press 2 for VIP ticket(s)\n");
     scanf("%d", ticket_type);
 
+    printf("Press 1 to continue or 2 to go back.\n");
     scanf("%d",ticket_choice);
 
     return *ticket_choice;
@@ -76,11 +77,11 @@ void extras(int *extras_type, int *extras_choice,int *total){
  */
 int payment(int total, int *checkout_choice, int balance, int *ticket_type, int *number_of_tickets){
     if(*ticket_type == 1){
-        printf("You have chosen %d normal ticket(s). Press 1 to continue or press 2 to go back\n",*number_of_tickets);
+        printf("You have chosen %d normal ticket(s).\n",*number_of_tickets);
         total = *number_of_tickets * NORMAL_PRICE;
     }
     else if (*ticket_type == 2){
-        printf("You have chosen %d VIP ticket(s). Press 1 to continue or press 2 to go back\n",*number_of_tickets);
+        printf("You have chosen %d VIP ticket(s).\n",*number_of_tickets);
         total = *number_of_tickets * VIP_PRICE;
     }
 
@@ -116,21 +117,14 @@ int payment(int total, int *checkout_choice, int balance, int *ticket_type, int 
 /**
  * Runs program in a loop until payment is finalised or until user goes back all the way to ticket info
  * @param choice pointer from before
- * @param number_of_tickets pointer from before
- * @param amount_choice pointer from before
- * @param ticket_type pointer from before
- * @param ticket_choice pointer from before
- * @param total pointer from before
- * @param checkout_choice pointer from before
- * @param balance pointer from before
  */
 void run_purchase_tickets (int choice){
-    int number_of_tickets,  amount_choice,  ticket_type,  ticket_choice,  total,  checkout_choice, balance;
+    int number_of_tickets,  amount_choice,  ticket_type,  ticket_choice,  total,  checkout_choice, balance = 500;
 
     if(purchase_tickets(&choice) == 1){
         while (choice == 1){
             if (amount_of_tickets(&number_of_tickets, &amount_choice) == 1) {
-                if (type_of_ticket( &ticket_type,  &ticket_choice, &total, &number_of_tickets) ==1){
+                if (type_of_ticket( &ticket_type,  &ticket_choice) ==1){
                     if(payment(total, &checkout_choice, balance, &ticket_type, &number_of_tickets)==1){
                         exit(EXIT_SUCCESS);
 
@@ -145,7 +139,7 @@ void run_purchase_tickets (int choice){
                 amount_of_tickets(&number_of_tickets, &amount_choice);
             }
             else if (checkout_choice != 1) {
-                type_of_ticket(&ticket_type, &ticket_choice, &total, &number_of_tickets);
+                type_of_ticket(&ticket_type, &ticket_choice);
             }
         }
     }
