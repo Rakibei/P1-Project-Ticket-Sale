@@ -4,7 +4,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "Purchase_tickets_functions.h"
-//#include "profile_data_storage.c/profile_data_storage.h"
+#include "profile_data_storage.c/profile_data_storage.h"
 
 #define NORMAL_PRICE 100 // DELETE LATER USED FOR TESTING
 #define VIP_PRICE 200 // DELETE LATER USED FOR TESTING
@@ -48,8 +48,6 @@ int amount_of_tickets(int *number_of_tickets, int *amount_choice){
  * Asks the user which type of ticket is desired
  * @param ticket_type Normal or VIP ticket choice
  * @param ticket_choice decides to continue or to go back
- * @param total total price which gets updated after choosing the ticket-type
- * @param number_of_tickets pointer from "amount_of_tickets", is the amount of tickets
  * @return returns ticket choice which decides to continue or go back
  */
 int type_of_ticket(int *ticket_type, int *ticket_choice){
@@ -101,7 +99,7 @@ int payment(int total, int *checkout_choice, int balance, int *ticket_type, int 
 
             for(int i=0; i < *number_of_tickets; ++i){
                 // UPDATE PROFILE WITH TICKETS FUNCTION HERE
-                // update_profile(ticket_struct new_ticket, profile_struct my_profile, prize);
+                update_profile(ticket_struct new_ticket, profile_struct my_profile, prize);
             }
 
 
