@@ -4,19 +4,10 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "Purchase_tickets_functions.h"
-#include "profile_data_storage.c/profile_data_storage.h"
 
 #define NORMAL_PRICE 100 // DELETE LATER USED FOR TESTING
 #define VIP_PRICE 200 // DELETE LATER USED FOR TESTING
 
-int main(void){
-    int choice;
-
-    int balance = 500; // DELETE LATER USED FOR TESTING
-
-    run_purchase_tickets(choice);
-
-}
 /**
  * Asks the user if he wants to purchase tickets
  * @param choice decides if to return to ticket info or continue
@@ -73,38 +64,43 @@ void extras(int *extras_type, int *extras_choice,int *total){
  * @param balance shows users balance
  * @return returns checkout choice which decides whether to finalise or go back
  */
-int payment(int total, int *checkout_choice, int balance, int *ticket_type, int *number_of_tickets){
-    if(*ticket_type == 1){
-        printf("You have chosen %d normal ticket(s).\n",*number_of_tickets);
-        total = *number_of_tickets * NORMAL_PRICE;
+int payment(int total, int *checkout_choice, int ticket_type, int number_of_tickets, profile_struct* user){
+    if(ticket_type == 1){
+        printf("You have chosen %d normal ticket(s).\n",number_of_tickets);
+        total = number_of_tickets * NORMAL_PRICE;
     }
-    else if (*ticket_type == 2){
-        printf("You have chosen %d VIP ticket(s).\n",*number_of_tickets);
-        total = *number_of_tickets * VIP_PRICE;
+    else if (ticket_type == 2){
+        printf("You have chosen %d VIP ticket(s).\n",number_of_tickets);
+        total = number_of_tickets * VIP_PRICE;
     }
 
     printf("Your total is = %d\n",total);
-    printf("Your balance is = %d\n", balance);
+    printf("Your balance is = %d\n", user->balance);
     printf("Press 1 to complete purchase or press 2 to go back\n");
     scanf("%d", checkout_choice);
 
     if (*checkout_choice == 1){
-        if(balance >= total){
-            balance = balance - total;
+        if(user->balance >= total){
             printf("Payment successful\n");
-            printf("New balance is = %d\n",balance);
+            printf("New balance is = %d\n", (user->balance - total));
             printf("You can now access your ticket(s) in the profile menu, enjoy your event.\n");
 
             // UPDATE NUMBER OF TICKETS HERE
 
-            for(int i=0; i < *number_of_tickets; ++i){
+            for(int i=1; i <= number_of_tickets; ++i){
                 // UPDATE PROFILE WITH TICKETS FUNCTION HERE
-                update_profile(ticket_struct new_ticket, profile_struct my_profile, prize);
+                ticket_struct new_ticket = {"Temp",i};//Ticket Placeholder
+                if(ticket_type == 1){
+                    update_profile(new_ticket, user, NORMAL_PRICE);
+                }
+                else if (ticket_type == 2){
+                    update_profile(new_ticket, user, VIP_PRICE);
+                }
             }
 
 
         }
-        else if(balance < total){
+        else if(user->balance < total){
             printf("Not enough funds for purchase, refill and try again\n");
             exit(EXIT_FAILURE);
         }
@@ -116,14 +112,14 @@ int payment(int total, int *checkout_choice, int balance, int *ticket_type, int 
  * Runs program in a loop until payment is finalised or until user goes back all the way to ticket info
  * @param choice pointer from before
  */
-void run_purchase_tickets (int choice){
-    int number_of_tickets,  amount_choice,  ticket_type,  ticket_choice,  total,  checkout_choice, balance = 500;
+void run_purchase_tickets (int choice, profile_struct* user){
+    int number_of_tickets,  amount_choice,  ticket_type,  ticket_choice,  total,  checkout_choice;
 
     if(purchase_tickets(&choice) == 1){
         while (choice == 1){
             if (amount_of_tickets(&number_of_tickets, &amount_choice) == 1) {
                 if (type_of_ticket( &ticket_type,  &ticket_choice) ==1){
-                    if(payment(total, &checkout_choice, balance, &ticket_type, &number_of_tickets)==1){
+                    if(payment(total, &checkout_choice, ticket_type, number_of_tickets, user)==1){
                         exit(EXIT_SUCCESS);
 
                         //BACK TO PROFILE OR TO TICKET INFO HERE
@@ -143,5 +139,6 @@ void run_purchase_tickets (int choice){
     }
     else {
         // GO BACK TO TICKET INFO HERE
+        exit(EXIT_SUCCESS);
     }
 }
