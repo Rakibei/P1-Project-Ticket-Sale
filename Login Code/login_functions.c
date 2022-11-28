@@ -37,6 +37,7 @@ int login(int i) {
 }
 
 void regis(void) {
+    int x;
     char rpassword[20];
     FILE *sc;
 
@@ -60,7 +61,7 @@ void regis(void) {
         fwrite(&acc,sizeof(acc),1,sc);
         fclose(sc);
         printf("\nRegistration Successful!\n");
-        s_option();
+        s_option(x);
     } else if (strcmp(rpassword,acc.password)!=0) {
         printf("Passwords did not match\n");
         regis();
