@@ -27,5 +27,10 @@ typedef struct{
     ticket_list list_of_tickets;
 } profile_struct;
 
+typedef struct{
+    char username[30];
+    char password[30];
+} accounts;
+
 void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int prize);
 void deallocate_ticket_list(ticket_list* list);

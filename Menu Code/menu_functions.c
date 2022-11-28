@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "menu_functions.h"
-#include "../Login Code/login_functions.h"
 
 void menu(int x) {
     int option, j = 10, l = 2;
