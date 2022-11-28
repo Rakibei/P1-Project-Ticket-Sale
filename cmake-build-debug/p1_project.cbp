@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="p1_project"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="p1_project">
+				<Option output="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/p1_project" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/13.1.6/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 p1_project"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="p1_project/fast">
+				<Option output="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/p1_project" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/13.1.6/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 p1_project/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/Login Code/login_functions.c">
+			<Option target="p1_project"/>
+		</Unit>
+		<Unit filename="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/Login Code/login_functions.h">
+			<Option target="p1_project"/>
+		</Unit>
+		<Unit filename="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/Menu Code/menu_functions.c">
+			<Option target="p1_project"/>
+		</Unit>
+		<Unit filename="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/Menu Code/menu_functions.h">
+			<Option target="p1_project"/>
+		</Unit>
+		<Unit filename="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/Purchasing of tickets/Purchase_tickets_functions.c">
+			<Option target="p1_project"/>
+		</Unit>
+		<Unit filename="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/Purchasing of tickets/Purchase_tickets_functions.h">
+			<Option target="p1_project"/>
+		</Unit>
+		<Unit filename="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/main.c">
+			<Option target="p1_project"/>
+		</Unit>
+		<Unit filename="/Users/arkadiuszpoblocki/CLionProjects/P1-Project-Ticket-Sale/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
