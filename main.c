@@ -4,11 +4,12 @@
 #include <stdbool.h>
 #include "Purchasing of tickets/Purchase_tickets_functions.h"
 void login(profile_struct* user, int nr_users, bool* next);
-void regis();
+void regis(int* nr_users);
+void view_tickets();
 
 int main()
 {
-    int choice = 1, balance = 1000, nr_users = 1;
+    int choice = 1, balance = 1000, nr_users = 0;
     bool next = false;
     profile_struct user = {"Test", balance, NULL};
 
@@ -23,7 +24,7 @@ int main()
         }
         else if (choice == 2)
         {
-            regis();
+            regis(&nr_users);
         }
         else
         {
@@ -43,7 +44,7 @@ void login(profile_struct* user, int nr_users, bool* next)
     FILE *sc;
     accounts placeholder;
 
-    sc = fopen("login.txt","r");
+    sc = fopen("server_users.txt","r");
     if (sc == NULL)
     {
         printf("Error at opening File!");
@@ -74,13 +75,13 @@ void login(profile_struct* user, int nr_users, bool* next)
     }
 }
 
-void regis()
+void regis(int* nr_users)
 {
     int x;
     char username[30], password[30], repassword[30];
     FILE *sc;
 
-    sc = fopen("login.txt","w");
+    sc = fopen("server_users.txt","a");//a means "update file or create new"
     if (sc == NULL)
     {
         fputs("Error at opening File!", stderr);
@@ -100,10 +101,16 @@ void regis()
         fprintf(sc, "%s\t%s\n", username, password);
         fclose(sc);
         printf("\nRegistration Successful!\n");
+        *nr_users = *nr_users + 1;
     }
     else
     {
         printf("Passwords did not match\n");
-        regis();
+        regis(nr_users);
     }
+}
+
+void view_tickets()
+{
+
 }
