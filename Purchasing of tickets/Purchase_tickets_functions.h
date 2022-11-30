@@ -16,6 +16,6 @@ int type_of_ticket(int *ticket_type, int *ticket_choice);
 
 void extras(int *extras_type, int *extras_choice,int *total);
 
-int payment(int total, int *checkout_choice, int ticket_type, int number_of_tickets, profile_struct* user);
+int payment(int *checkout_choice, int ticket_type, int number_of_tickets, profile_struct* user, ticket_struct new_ticket);
 
-void run_purchase_tickets(int choice, profile_struct* user);
+void run_purchase_tickets(int choice, profile_struct* user, ticket_struct new_ticket);
