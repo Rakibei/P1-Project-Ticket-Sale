@@ -64,7 +64,9 @@ void extras(int *extras_type, int *extras_choice,int *total){
  * @param balance shows users balance
  * @return returns checkout choice which decides whether to finalise or go back
  */
-int payment(int total, int *checkout_choice, int ticket_type, int number_of_tickets, profile_struct* user){
+int payment(int *checkout_choice, int ticket_type, int number_of_tickets, profile_struct* user, ticket_struct new_ticket){
+    int total;
+
     if(ticket_type == 1){
         printf("You have chosen %d normal ticket(s).\n",number_of_tickets);
         total = number_of_tickets * NORMAL_PRICE;
@@ -89,7 +91,6 @@ int payment(int total, int *checkout_choice, int ticket_type, int number_of_tick
 
             for(int i=1; i <= number_of_tickets; ++i){
                 // UPDATE PROFILE WITH TICKETS FUNCTION HERE
-                ticket_struct new_ticket = {"Temp",i};//Ticket Placeholder
                 if(ticket_type == 1){
                     update_profile(new_ticket, user, NORMAL_PRICE);
                 }
@@ -112,17 +113,16 @@ int payment(int total, int *checkout_choice, int ticket_type, int number_of_tick
  * Runs program in a loop until payment is finalised or until user goes back all the way to ticket info
  * @param choice pointer from before
  */
-void run_purchase_tickets (int choice, profile_struct* user){
+void run_purchase_tickets (int choice, profile_struct* user, ticket_struct new_ticket){
     int number_of_tickets,  amount_choice,  ticket_type,  ticket_choice,  total,  checkout_choice;
 
     if(purchase_tickets(&choice) == 1){
         while (choice == 1){
             if (amount_of_tickets(&number_of_tickets, &amount_choice) == 1) {
                 if (type_of_ticket( &ticket_type,  &ticket_choice) ==1){
-                    if(payment(total, &checkout_choice, ticket_type, number_of_tickets, user)==1){
-                        exit(EXIT_SUCCESS);
-
-                        //BACK TO PROFILE OR TO TICKET INFO HERE
+                    if(payment(&checkout_choice, ticket_type, number_of_tickets, user, new_ticket)==1){
+                        //exit(EXIT_SUCCESS);
+                        choice = 0;//BACK TO PROFILE OR TO TICKET INFO HERE
                     }
                 }
             }
@@ -139,6 +139,6 @@ void run_purchase_tickets (int choice, profile_struct* user){
     }
     else {
         // GO BACK TO TICKET INFO HERE
-        exit(EXIT_SUCCESS);
+        //exit(EXIT_SUCCESS);
     }
 }
