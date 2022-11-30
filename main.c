@@ -3,16 +3,35 @@
 #include <string.h>
 #include <stdbool.h>
 #include "Purchasing of tickets/Purchase_tickets_functions.h"
-void login(profile_struct* user, int nr_users, bool* next);
+
+void login(profile_struct *user, int nr_users, bool *next);
+
 void regis(int* nr_users);
+
 void view_tickets(int nr_tickets, profile_struct* user);
+
+void run_navigation_menu(profile_struct *user, int nr_users, bool next);
+
+void auth_menu(profile_struct *user, int choice, int nr_users, bool next);
 
 int main()
 {
-    int choice = 1, balance = 1000, nr_users = 2;//nr_users should be updated on the server side.
+    int choice = 1, balance = 1000, nr_users = 1;//nr_users should be updated on the server side.
     bool next = false;                           //We must do it manually.
     profile_struct user = {"Test", balance, NULL};
 
+    auth_menu(&user, choice, nr_users, next);
+
+    run_navigation_menu(&user, nr_users, next);
+
+    deallocate_ticket_list(&user.list_of_tickets);
+
+    return 0;
+}
+
+
+void auth_menu(profile_struct *user, int choice, int nr_users, bool next)
+{
     do
     {
         printf("Do you wish to Login [1] or Register [2]?\n");
@@ -20,7 +39,7 @@ int main()
 
         if (choice == 1)
         {
-            login(&user, nr_users, &next);
+            login(user, nr_users, &next);
         }
         else if (choice == 2)
         {
@@ -31,12 +50,40 @@ int main()
             exit(0);
         }
     } while(next == false);
-
-    view_tickets(4, &user);//We have 4 tickets in the temp file right now.
-
-    deallocate_ticket_list(&user.list_of_tickets);
-    return 0;
 }
+
+
+void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is the menu function
+{
+    int choice = 1;
+    next == true;
+
+    while (true)
+    {
+        printf("1) Purchase ticket\n");
+        printf("2) Logout\n");
+        printf("3) Exit program\n");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                view_tickets(4, user);//We have 4 tickets in the temp file right now.
+                break;
+
+            case 2:
+                auth_menu(user, choice, nr_users, next);
+
+                break;
+
+            case 3:
+                exit(0);
+
+            default:
+                printf("incorrect input\n");
+        }
+    }
+}
+
 
 void login(profile_struct* user, int nr_users, bool* next)
 {
@@ -75,6 +122,7 @@ void login(profile_struct* user, int nr_users, bool* next)
     }
 }
 
+
 void regis(int* nr_users)
 {
     int x;
@@ -109,6 +157,7 @@ void regis(int* nr_users)
         regis(nr_users);
     }
 }
+
 
 void view_tickets(int nr_tickets, profile_struct* user)
 {
