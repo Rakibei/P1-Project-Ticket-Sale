@@ -3,6 +3,7 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
+#include "string.h"
 #include "data_storage.h"
 
 /**
@@ -21,7 +22,12 @@ void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int pr
 
     my_profile->balance = my_profile->balance - prize;
 
-    FILE* storage = fopen("Profile_Data_Storage.txt", "w");
+    char txt[] = ".txt";
+    char filename[35];
+    strcat(filename, my_profile->username);
+    strcat(filename,txt);
+
+    FILE* storage = fopen(filename, "w");
     fprintf(storage,"%s\n", my_profile->username);
     ticket_node* current = my_profile->list_of_tickets.head;
     while(current != NULL)
