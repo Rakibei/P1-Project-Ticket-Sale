@@ -6,7 +6,7 @@
 #define PURCHASING_OF_TICKETS_PURCHASING_OF_TICKETS_H
 
 #endif //PURCHASING_OF_TICKETS_PURCHASING_OF_TICKETS_H
-#include "../Storage Code/data_storage.h"
+#include "../Profile Menu/Profile_Menu_Code.h"
 
 int purchase_tickets(int *choice);
 
@@ -19,3 +19,4 @@ void extras(int *extras_type, int *extras_choice,int *total);
 int payment(int total, int *checkout_choice, int ticket_type, int number_of_tickets, profile_struct* user);
 
 void run_purchase_tickets(int choice, profile_struct* user);
+

@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "Purchasing of tickets/Purchase_tickets_functions.h"
+
 void login(profile_struct* user, int nr_users, bool* next);
 void regis();
 
@@ -32,6 +33,8 @@ int main()
     } while(next == false);
 
     run_purchase_tickets(choice, &user);
+
+
 
     deallocate_ticket_list(&user.list_of_tickets);
     return 0;

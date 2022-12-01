@@ -138,6 +138,7 @@ void run_purchase_tickets (int choice, profile_struct* user){
         }
     }
     else {
+        run_profile(user);
         // GO BACK TO TICKET INFO HERE
         exit(EXIT_SUCCESS);
     }
