@@ -22,7 +22,8 @@ void fill_tickets_struct(int *tickets_in_profile){
 
     while((character = getc(tickets_temp))!= EOF){
         ungetc(character,tickets_temp);
-        fscanf(tickets_temp, "%s %s %s %s %s %s", all_tickets[j].category, all_tickets[j].genre, all_tickets[j].performing, all_tickets[j].opponent,all_tickets[j].type, all_tickets[j].price);
+        fscanf(tickets_temp, "%s %s %s %s %s %s", all_tickets[j].category, all_tickets[j].genre
+               ,all_tickets[j].performing, all_tickets[j].opponent,all_tickets[j].type, all_tickets[j].price);
         ++j;
     }
     *tickets_in_profile = j;
@@ -53,7 +54,8 @@ void return_function(int *tickets_in_profile){
 
     printf("Which ticket would you like to return?\n");
     for (int i = 0;  i < *tickets_in_profile; ++i ){
-        printf("%d) %s\n%s\n%s\n%s\n%s\n%s\n",i,all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
+        printf("%d) %s\n%s\n%s\n%s\n%s\n%s\n",i,all_tickets[i].category, all_tickets[i].genre
+               ,all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
         printf("\n");
     }
     scanf("%d",&ticket_number);
@@ -67,24 +69,32 @@ void return_function(int *tickets_in_profile){
             //THIS IF IS FOR THE USER CHOOSING EVERY TICKET OTHER THAN THE LAST TO BE RETURNED
             if(*tickets_in_profile - ticket_number != 1){
                 if(*tickets_in_profile - i != 1){
-                    fprintf(tickets_returned,"%s %s %s %s %s %s\n",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
+                    fprintf(tickets_returned,"%s %s %s %s %s %s\n",all_tickets[i].category, all_tickets[i].genre
+                            ,all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type
+                            ,all_tickets[i].price);
                 }
                 else if(*tickets_in_profile - i == 1){
-                    fprintf(tickets_returned,"%s %s %s %s %s %s",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
+                    fprintf(tickets_returned,"%s %s %s %s %s %s",all_tickets[i].category, all_tickets[i].genre
+                            ,all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type
+                            ,all_tickets[i].price);
                 }
             }
             /* THIS ELSE IF IS FOR RETURNING THE LAST TICKET. TICKET NUMBER FOR LAST TICKET IS ALWAYS 1 LOWER THAN
              * TICKETS_IN_PROFILE THEREFORE == 1*/
             else if(*tickets_in_profile - ticket_number == 1){
                 if(*tickets_in_profile - i != 2){
-                    fprintf(tickets_returned,"%s %s %s %s %s %s\n",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
+                    fprintf(tickets_returned,"%s %s %s %s %s %s\n",all_tickets[i].category, all_tickets[i].genre
+                            ,all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type
+                            ,all_tickets[i].price);
                 }
                 // IF WE WANT TO RETURN THE LAST TICKET LETS SAY NUMBER 5 OUT OF 5, IT WOULD BE CHOICE 4 BECAUSE
                 // 0 ALSO IS A PART OF THE STRUCT, THE NUMBER 4 WON'T ENTER THIS PART OF THE FUNCTION
                 // BECAUSE OF THE FIRST IF "if(i != ticket_number)", THEREFORE THE TICKET BEFORE 4 WILL BE THE LAST = 3.
                 // 5 (TICKETS) - 3(i, THE LAST 'i' BEFORE FUNCTION END) = 2, THEREFORE NO NEWLINE CHARACTER IN THIS ONE
                 else if(*tickets_in_profile - i == 2){
-                    fprintf(tickets_returned,"%s %s %s %s %s %s",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
+                    fprintf(tickets_returned,"%s %s %s %s %s %s",all_tickets[i].category, all_tickets[i].genre
+                            ,all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type
+                            ,all_tickets[i].price);
                 }
             }
         }
