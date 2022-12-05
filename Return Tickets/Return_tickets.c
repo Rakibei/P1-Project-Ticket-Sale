@@ -33,6 +33,7 @@ void return_function(int *tickets_in_profile){
     printf("How many tickets would you like to return?\n");
     scanf("%d", &tickets_to_be_returned);
 
+
     FILE* tickets_returned = fopen("Tickets.txt","w");
     if (tickets_returned == NULL)
     {
@@ -74,9 +75,12 @@ void return_function(int *tickets_in_profile){
         for (int i = 0;  i < *tickets_in_profile; ++i ){
             printf("%d) %s\n %s\n %s\n %s\n",i,all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
         }
-        scanf("%d",&ticket_number);
+        for(int returns = 0; returns < tickets_to_be_returned; ++returns){
+            scanf("%d",&ticket_number);
+        }
 
-        for (int i = 0;  i < *tickets_in_profile; ++i ){
+
+        for(int i = 0;  i < *tickets_in_profile; ++i ){
             if(i != ticket_number){
                 if(*tickets_in_profile - ticket_number != 1){
                     if(*tickets_in_profile - i != 1){
@@ -105,7 +109,5 @@ void return_function(int *tickets_in_profile){
 void run_return_tickets(int *tickets_in_profile){
     fill_tickets_struct(tickets_in_profile);
     return_function(tickets_in_profile);
-
-
     exit(EXIT_SUCCESS);
 }
