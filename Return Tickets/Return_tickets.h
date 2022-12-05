@@ -22,7 +22,7 @@ typedef struct {
 /**
  * Array of structs, number indicates max amount of tickets possible to be ran by program
  */
-ticket_return all_tickets[10];
+ticket_return all_tickets[50];
 
 void fill_tickets_struct(int *tickets_in_profile);
 
