@@ -3,4 +3,4 @@ project(p1_project C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(p1_project main.c  "Purchasing of tickets/Purchase_tickets_functions.c" "Purchasing of tickets/Purchase_tickets_functions.h" "Storage Code/data_storage.c" "Storage Code/data_storage.h")
+add_executable(p1_project main.c  "Purchasing of tickets/Purchase_tickets_functions.c" "Purchasing of tickets/Purchase_tickets_functions.h" "Storage Code/data_storage.c" "Storage Code/data_storage.h" "Return Tickets/Return_tickets.c" "Return Tickets/Return_tickets.h")

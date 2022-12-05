@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "Purchasing of tickets/Purchase_tickets_functions.h"
+#include "Return Tickets/Return_tickets.h"
 
 void login(profile_struct *user, int nr_users, bool *next);
 
@@ -19,6 +20,9 @@ int main()
     int choice = 1, balance = 1000, nr_users = 1;//nr_users should be updated on the server side.
     bool next = false;                           //We must do it manually.
     profile_struct user = {"Test", balance, NULL};
+
+    int tickets_in_profile;
+    run_return_tickets(&tickets_in_profile);
 
     auth_menu(&user, choice, nr_users, next);
 
@@ -164,6 +168,7 @@ void view_tickets(int nr_tickets, profile_struct* user)
     int temp, choice = 0;
     ticket_struct tickets[nr_tickets];
     FILE* ticket_file;
+
 
     ticket_file = fopen("ticket_list.txt","r");
     if (ticket_file == NULL)
