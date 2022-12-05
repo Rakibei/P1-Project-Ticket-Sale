@@ -14,6 +14,9 @@ void run_navigation_menu(profile_struct *user, int nr_users, bool next);
 
 void auth_menu(profile_struct *user, int choice, int nr_users, bool next);
 
+void run_profile(profile_struct *user, int* logout);
+
+
 int main()
 {
     int choice = 1, balance = 1000, nr_users = 1;//nr_users should be updated on the server side.
@@ -55,6 +58,7 @@ void auth_menu(profile_struct *user, int choice, int nr_users, bool next)
 
 void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is the menu function
 {
+    int logout = 0;
     int choice = 1;
     next == true;
 
@@ -62,7 +66,8 @@ void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is
     {
         printf("1) Purchase ticket\n");
         printf("2) Logout\n");
-        printf("3) Exit program\n");
+        printf("3) Profile Menu\n");
+        printf("4) Exit program\n");
         scanf("%d", &choice);
 
         switch (choice) {
@@ -76,6 +81,14 @@ void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is
                 break;
 
             case 3:
+                run_profile(user,&logout);
+                if (logout == 1){
+                    auth_menu(user, choice, nr_users, next);
+                }
+
+                break;
+
+            case 4:
                 exit(0);
 
             default:
