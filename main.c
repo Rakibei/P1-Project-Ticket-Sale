@@ -21,9 +21,6 @@ int main()
     bool next = false;                           //We must do it manually.
     profile_struct user = {"Test", balance, NULL};
 
-    int tickets_in_profile;
-    run_return_tickets(&tickets_in_profile);
-
     auth_menu(&user, choice, nr_users, next);
 
     run_navigation_menu(&user, nr_users, next);
