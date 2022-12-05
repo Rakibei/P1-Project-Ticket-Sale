@@ -5,8 +5,13 @@
 #include "stdlib.h"
 #include "Return_tickets.h"
 
+/**
+ * Function fills struct with information while character in file is not EOF, also opens FILE with tickets in read mode
+ * @param tickets_in_profile shows how many tickets are in profile
+ * closes tickets FILE
+ */
 void fill_tickets_struct(int *tickets_in_profile){
-    int ch;
+    int character;
     int j=0;
     FILE* tickets_temp = fopen("Tickets.txt","r");
     if (tickets_temp == NULL)
@@ -15,9 +20,9 @@ void fill_tickets_struct(int *tickets_in_profile){
         exit(1);
     }
 
-    while((ch = getc(tickets_temp))!= EOF){
-        ungetc(ch,tickets_temp);
-        fscanf(tickets_temp, "%s %s %s %s", all_tickets[j].category, all_tickets[j].genre, all_tickets[j].performing, all_tickets[j].opponent);
+    while((character = getc(tickets_temp))!= EOF){
+        ungetc(character,tickets_temp);
+        fscanf(tickets_temp, "%s %s %s %s %s %s", all_tickets[j].category, all_tickets[j].genre, all_tickets[j].performing, all_tickets[j].opponent,all_tickets[j].type, all_tickets[j].price);
         ++j;
     }
     *tickets_in_profile = j;
@@ -26,88 +31,77 @@ void fill_tickets_struct(int *tickets_in_profile){
 
 }
 
+/**
+ * Function that returns the tickets(deletes from text FILE), return balance to user and ups the number of available
+ * tickets.
+ * Function opens tickets FILE in write mode
+ * Function shows all tickets with assigned numbers and asks user which are to be returned
+ * Function runs through all ticket numbers and DOES NOT print the ticket(struct) which the user wanted returned
+ * Function prints the rest of the tickets neatly in text FILE
+ * Function returns balance spent on buying to user and ups amount of tickets returned to available tickets
+ * @param tickets_in_profile
+ */
 void return_function(int *tickets_in_profile){
-    printf("%d\n",*tickets_in_profile);
-    int tickets_to_be_returned;
     int ticket_number;
-    printf("How many tickets would you like to return?\n");
-    scanf("%d", &tickets_to_be_returned);
 
 
     FILE* tickets_returned = fopen("Tickets.txt","w");
-    if (tickets_returned == NULL)
-    {
+    if (tickets_returned == NULL){
         fputs("Error at opening File!", stderr);
         exit(1);
     }
 
-    if(tickets_to_be_returned == 1){
-        printf("Which ticket(s) would you like to return?\n");
-        for (int i = 0;  i < *tickets_in_profile; ++i ){
-            printf("%d) %s\n %s\n %s\n %s\n",i,all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
-        }
-        scanf("%d",&ticket_number);
+    printf("Which ticket would you like to return?\n");
+    for (int i = 0;  i < *tickets_in_profile; ++i ){
+        printf("%d) %s\n%s\n%s\n%s\n%s\n%s\n",i,all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
+        printf("\n");
+    }
+    scanf("%d",&ticket_number);
 
-        for (int i = 0;  i < *tickets_in_profile; ++i ){
-            if(i != ticket_number){
-                if(*tickets_in_profile - ticket_number != 1){
-                    if(*tickets_in_profile - i != 1){
-                        fprintf(tickets_returned,"%s %s %s %s\n",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
-                    }
-                    else if(*tickets_in_profile - i == 1){
-                        fprintf(tickets_returned,"%s %s %s %s",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
-                    }
+
+    for (int i = 0;  i < *tickets_in_profile; ++i ){
+        if(i != ticket_number){
+            /*CHECKS IF THIS TICKET IS THE LAST, IF IT IS NO NEWLINE CHARACTER IS PRINTED, IF IT ALWAYS PRINTED NEWLINE
+            TEXT FILE WOULD HAVE AN EXTRA EMPTY TICKET */
+            if(*tickets_in_profile - ticket_number != 1){
+                if(*tickets_in_profile - i != 1){
+                    fprintf(tickets_returned,"%s %s %s %s %s %s\n",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
                 }
-                else if(*tickets_in_profile - ticket_number == 1){
-                    if(*tickets_in_profile - i != 2){
-                        fprintf(tickets_returned,"%s %s %s %s\n",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
-                    }
-                    else if(*tickets_in_profile - i == 2){
-                        fprintf(tickets_returned,"%s %s %s %s",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
-                    }
+                else if(*tickets_in_profile - i == 1){
+                    fprintf(tickets_returned,"%s %s %s %s %s %s",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
+                }
+            }
+            else if(*tickets_in_profile - ticket_number == 1){
+                if(*tickets_in_profile - i != 2){
+                    fprintf(tickets_returned,"%s %s %s %s %s %s\n",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
+                }
+                else if(*tickets_in_profile - i == 2){
+                    fprintf(tickets_returned,"%s %s %s %s %s %s",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].type,all_tickets[i].price);
                 }
             }
         }
     }
 
-    else if(tickets_to_be_returned > 1){
-        printf("Which tickets would you like to return?\n");
-        for (int i = 0;  i < *tickets_in_profile; ++i ){
-            printf("%d) %s\n %s\n %s\n %s\n",i,all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
-        }
-        for(int returns = 0; returns < tickets_to_be_returned; ++returns){
-            scanf("%d",&ticket_number);
-        }
+    // BALANCE GOES UP, PRICES NEEDED, IDENTIFIER OF TICKET TYPE IN TEXT FILE NEEDED
+    int balance = 0; // DELETE LATER USED FOR TESTING
+    balance = balance + atoi(all_tickets[ticket_number].price);
+    printf("YOUR NEW BALANCE IS = %d",balance);
 
 
-        for(int i = 0;  i < *tickets_in_profile; ++i ){
-            if(i != ticket_number){
-                if(*tickets_in_profile - ticket_number != 1){
-                    if(*tickets_in_profile - i != 1){
-                        fprintf(tickets_returned,"%s %s %s %s\n",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
-                    }
-                    else if(*tickets_in_profile - i == 1){
-                        fprintf(tickets_returned,"%s %s %s %s",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
-                    }
-                }
-                else if(*tickets_in_profile - ticket_number == 1){
-                    if(*tickets_in_profile - i != 2){
-                        fprintf(tickets_returned,"%s %s %s %s\n",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
-                    }
-                    else if(*tickets_in_profile - i == 2){
-                        fprintf(tickets_returned,"%s %s %s %s",all_tickets[i].category, all_tickets[i].genre, all_tickets[i].performing, all_tickets[i].opponent);
-                    }
-                }
-            }
-        }
-    }
+    // NUMBER OF TICKETS GOES UP
+
 
     fclose(tickets_returned);
-
 }
 
+/**
+ * Runs all the functions
+ * To be used in final program
+ * @param tickets_in_profile
+ */
 void run_return_tickets(int *tickets_in_profile){
     fill_tickets_struct(tickets_in_profile);
     return_function(tickets_in_profile);
-    exit(EXIT_SUCCESS);
+
+    exit(EXIT_SUCCESS); // DELETE LATER, USED FOR TESTING
 }
