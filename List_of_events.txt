@@ -1,6 +1,6 @@
 Sport	Football   Viborg FF       FC Kobenhavn   16:00   14/12  Energi Viborg Arena     234
 Music	Rap        Rotte Records   60 min         20:00   24/12  TemaBar Viborg          38
-Sport   Handball   Danmark         Tyskland       21:15   03/02  Viborg Stadion Center   204
+Sport   Handball   Denmark         Germany        21:15   03/02  Viborg Stadion Center   204
 Music   Pop        Dua Lipa        120 min 	  22:00   05/01  Store Vega Kobenhavn    450
 Sport   Football   Viborg FF       FC Barcelona   21:00   04/04  Energi Viborg Arena     12
 Music   Rap        Gilli           45 min         18:00   12/04  Royal Arena Copenhagen  56
