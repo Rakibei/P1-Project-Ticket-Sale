@@ -14,6 +14,6 @@ void print_tickets();
 
 void profile_balance(profile_struct* my_profile);
 
-void delete_profile(profile_struct* my_profile);
+void delete_profile(profile_struct* user);
 
-void run_profile(profile_struct* user);
+void run_profile(profile_struct* user, int* logout);
