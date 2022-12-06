@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "Purchasing of tickets/Purchase_tickets_functions.h"
+#include "Return Tickets/Return_tickets.h"
 
 void login(profile_struct *user, int nr_users, bool *next);
 
@@ -177,6 +178,7 @@ void view_tickets(int nr_tickets, profile_struct* user)
     int temp, choice = 0;
     ticket_struct tickets[nr_tickets];
     FILE* ticket_file;
+
 
     ticket_file = fopen("ticket_list.txt","r");
     if (ticket_file == NULL)
