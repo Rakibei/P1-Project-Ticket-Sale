@@ -1,0 +1,10 @@
+Sport   Football    Viborg_FF   FC_Kobenhavn    16:00   14/12   Energi_Viborg_Arena 234
+Music   Rap Rotte_Records   60_min  20:00   24/12   TemaBar_Viborg  38
+Sport   Handball    Denmark Germany 21:15   03/02   Viborg_Stadion_Center   204
+Music   Pop Dua_Lipa    120_min 22:00   05/01   Store_Vega_Kobenhavn    450
+Sport   Football    Viborg_FF   FC_Barcelona    21:00   04/04   Energi_Viborg_Arena 12
+Music   Rap Gilli   45_min  18:00   12/04   Royal_Arena_Copenhagen  56
+Music   Rock    Nephew  60_min  19:00   03/03   Tinghallen_Viborg   46
+Music   Rap Branco  35_min  21:00   18/02   Musikhuset_Aarhus   201
+Sport   Football    FC_Vestjylland  Macva   18:00   15/12   MCH_Arena   2023
+Sport   Icehockey   Aalborg_Pirates Esbjerg_Energy  21:00   16/12   Gigantium_Aalborg   54
