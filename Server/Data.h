@@ -50,8 +50,11 @@ typedef struct {
     char genre[20];
     char performing[20];
     char opponent[20];
-    char type[20];
-    char price[20];
+    char time[20];
+    char date[20];
+    char venue[20];
+    //char type[20];
+    //char price[20];
 }ticket_return;
 
 void login(profile_struct *user, int nr_users, bool *next);
