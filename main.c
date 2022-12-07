@@ -632,7 +632,7 @@ void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int pr
     strcat(filename,txt);
 
     FILE* storage = fopen(filename, "w");
-    fprintf(storage,"%s\n", my_profile->username);
+    //fprintf(storage,"%s\n", my_profile->username);
     ticket_node* current = my_profile->list_of_tickets.head;
     while(current != NULL)
     {
