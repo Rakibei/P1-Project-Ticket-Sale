@@ -363,6 +363,7 @@ void fill_tickets_struct(int *tickets_in_profile)
     int j=0;
     ticket_return all_tickets[50];
     FILE* tickets_temp = fopen("../Server/Test.txt","r"); // NAME OF FINAL TICKET TEXT FILE HERE
+
     if (tickets_temp == NULL)
     {
         fputs("Error at opening File!", stderr);
