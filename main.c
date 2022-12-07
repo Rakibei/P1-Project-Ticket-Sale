@@ -46,7 +46,7 @@ void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is
 
     while (true)
     {
-        printf("1) Purchase ticket\n");
+        printf("1) Purchase tickets\n");
         printf("2) Logout\n");
         printf("3) Profile Menu\n");
         printf("4) Exit program\n");
@@ -220,7 +220,7 @@ void view_tickets(int nr_tickets, profile_struct* user)
                 if(temp > nr_tickets)
                 {
                     temp = temp - 1;
-                    printf("There are no next ticket.\n");
+                    printf("There are no other next tickets.\n");
                 }
                 break;
             case 3:
@@ -228,14 +228,14 @@ void view_tickets(int nr_tickets, profile_struct* user)
                 if(temp > nr_tickets)
                 {
                     temp = temp + 1;
-                    printf("There are no previous ticket.\n");
+                    printf("There is no previous ticket.\n");
                 }
                 break;
             case 4:
                 choice = -1;//temporary, should send to main menu.
                 break;
             default:
-                printf("wrong input, try again.\n");
+                printf("Wrong input, try again.\n");
                 break;
         }
     } while(choice >= 0);
