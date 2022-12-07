@@ -21,7 +21,7 @@ typedef struct{
     char opponent[20];
     char time[20];
     char date[20];
-    char location[20];
+    char location[30];
     int available;
 } ticket_struct;
 
