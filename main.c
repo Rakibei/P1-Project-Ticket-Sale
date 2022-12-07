@@ -372,9 +372,14 @@ void fill_tickets_struct(int *tickets_in_profile)
     while((character = getc(tickets_temp))!= EOF)
     {
         ungetc(character,tickets_temp);
-        fscanf(tickets_temp, "%s %s %s %s %s %s %s", all_tickets[j].category, all_tickets[j].genre
-                ,all_tickets[j].performing, all_tickets[j].opponent,all_tickets[j].time, all_tickets[j].date
-                ,all_tickets[j].venue);
+        fscanf(tickets_temp, "%s %s %s %s %s %s %s",
+                all_tickets[j].category,
+                all_tickets[j].genre,
+                all_tickets[j].performing,
+                all_tickets[j].opponent,
+                all_tickets[j].time,
+                all_tickets[j].date,
+                all_tickets[j].venue);
         ++j;
     }
     *tickets_in_profile = j;
@@ -405,9 +410,15 @@ void return_function(int *tickets_in_profile)
     printf("Which ticket would you like to return?\n");
     for (int i = 0;  i < *tickets_in_profile; ++i )
     {
-        printf("%d) %s\t%s\t%s\t%s\t%s\t%s\t%s\n",i,all_tickets[i].category, all_tickets[i].genre
-                ,all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].time,all_tickets[i].date
-                ,all_tickets[i].venue);
+        printf("%d) %s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+               i,
+               all_tickets[i].category,
+               all_tickets[i].genre,
+               all_tickets[i].performing,
+               all_tickets[i].opponent,
+               all_tickets[i].time,
+               all_tickets[i].date,
+               all_tickets[i].venue);
         printf("\n");
     }
     scanf("%d",&ticket_number);
@@ -425,15 +436,25 @@ void return_function(int *tickets_in_profile)
             {
                 if(*tickets_in_profile - i != 1)
                 {
-                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s\n",all_tickets[i].category, all_tickets[i].genre
-                            ,all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].time
-                            ,all_tickets[i].date, all_tickets[i].venue);
+                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+                            all_tickets[i].category,
+                            all_tickets[i].genre,
+                            all_tickets[i].performing,
+                            all_tickets[i].opponent,
+                            all_tickets[i].time,
+                            all_tickets[i].date,
+                            all_tickets[i].venue);
                 }
                 else if(*tickets_in_profile - i == 1)
                 {
-                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s",all_tickets[i].category, all_tickets[i].genre
-                            ,all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].time
-                            ,all_tickets[i].date,all_tickets[i].venue);
+                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s",
+                            all_tickets[i].category,
+                            all_tickets[i].genre,
+                            all_tickets[i].performing,
+                            all_tickets[i].opponent,
+                            all_tickets[i].time,
+                            all_tickets[i].date,
+                            all_tickets[i].venue);
                 }
             }
                 /* THIS ELSE IF IS FOR RETURNING THE LAST TICKET. TICKET NUMBER FOR LAST TICKET IS ALWAYS 1 LOWER THAN
@@ -442,9 +463,14 @@ void return_function(int *tickets_in_profile)
             {
                 if(*tickets_in_profile - i != 2)
                 {
-                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s\n",all_tickets[i].category, all_tickets[i].genre
-                            ,all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].time
-                            ,all_tickets[i].date,all_tickets[i].venue);
+                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+                            all_tickets[i].category,
+                            all_tickets[i].genre,
+                            all_tickets[i].performing,
+                            all_tickets[i].opponent,
+                            all_tickets[i].time,
+                            all_tickets[i].date,
+                            all_tickets[i].venue);
                 }
                     // IF WE WANT TO RETURN THE LAST TICKET LETS SAY NUMBER 5 OUT OF 5, IT WOULD BE CHOICE 4 BECAUSE
                     // 0 ALSO IS A PART OF THE STRUCT, THE NUMBER 4 WON'T ENTER THIS PART OF THE FUNCTION
@@ -452,9 +478,14 @@ void return_function(int *tickets_in_profile)
                     // 5 (TICKETS) - 3(i, THE LAST 'i' BEFORE FUNCTION END) = 2, THEREFORE NO NEWLINE CHARACTER IN THIS ONE
                 else if(*tickets_in_profile - i == 2)
                 {
-                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s",all_tickets[i].category, all_tickets[i].genre
-                            ,all_tickets[i].performing, all_tickets[i].opponent,all_tickets[i].time
-                            ,all_tickets[i].date,all_tickets[i].venue);
+                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s",
+                            all_tickets[i].category,
+                            all_tickets[i].genre,
+                            all_tickets[i].performing,
+                            all_tickets[i].opponent,
+                            all_tickets[i].time,
+                            all_tickets[i].date,
+                            all_tickets[i].venue);
                 }
             }
         }
