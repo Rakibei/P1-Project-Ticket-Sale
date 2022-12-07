@@ -669,7 +669,7 @@ void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int pr
 
     while(current != NULL)
     {
-        fprintf(storage,"%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+        fprintf(storage,"\n%s\t%s\t%s\t%s\t%s\t%s\t%s",
                 current->ticket.category,
                 current->ticket.genre,
                 current->ticket.performing,
