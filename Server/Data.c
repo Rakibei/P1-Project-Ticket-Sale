@@ -36,3 +36,29 @@ void initialize(profile_struct* my_profile)
     }
     fclose(file);
 }
+
+void nr_users_on_server(int* nr_users)
+{
+    FILE* server;
+    server = fopen("../Server/nr_users.txt", "r");
+    if(server == NULL)
+    {
+        fclose(server);
+        server = fopen("../Server/nr_users.txt","w");
+        fprintf(server,"%d", *nr_users);
+        fclose(server);
+    }
+    else
+    {
+        fscanf(server,"%d", nr_users);
+        fclose(server);
+    }
+}
+
+void update_nr_users_on_server(int nr_users)
+{
+    FILE* server;
+    server = fopen("../Server/nr_users.txt", "w");
+    fprintf(server,"%d", nr_users);
+    fclose(server);
+}

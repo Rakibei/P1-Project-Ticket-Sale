@@ -2,20 +2,21 @@
 
 int main()
 {
-    int choice = 1, balance = 1000, nr_users = 1;//nr_users should be updated on the server side.
-    bool next = false;                           //We must do it manually.
+    int choice = 1, balance = 1000, nr_users = 1;
+    bool next = false;
     profile_struct user = {"Test", balance, NULL};
+    nr_users_on_server(&nr_users);
 
-    main_menu(&user, choice, nr_users, next);
+    main_menu(&user, choice, &nr_users, next);
 
-    run_navigation_menu(&user, nr_users, next);
+    run_navigation_menu(&user, &nr_users, next);
 
     return 0;
 }
 //###########################################################################//
 //                                Menus                                      //
 //###########################################################################//
-void main_menu(profile_struct *user, int choice, int nr_users, bool next)
+void main_menu(profile_struct *user, int choice, int* nr_users, bool next)
 {
     do
     {
@@ -25,12 +26,14 @@ void main_menu(profile_struct *user, int choice, int nr_users, bool next)
         switch(choice)
         {
             case 1:
-                login(user, nr_users, &next);
+                login(user, *nr_users, &next);
                 break;
             case 2:
-                regis(&nr_users);
+                regis(nr_users);
                 break;
             case 3:
+                printf("%d", *nr_users);
+                update_nr_users_on_server(*nr_users);
                 exit(0);
                 break;
             default:
@@ -40,7 +43,7 @@ void main_menu(profile_struct *user, int choice, int nr_users, bool next)
     } while(next == false);
 }
 
-void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is the menu function
+void run_navigation_menu(profile_struct *user, int* nr_users, bool next)//this is the menu function
 {
     int logout = 0;
     int choice = 1;
@@ -63,13 +66,15 @@ void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is
                 break;
 
             case 3:
-                run_profile(user,&logout);
+                run_profile(user,&logout, nr_users);
                 if (logout == 1){
                     main_menu(user, choice, nr_users, next);
                 }
                 break;
 
             case 4:
+                printf("%d", *nr_users);
+                update_nr_users_on_server(*nr_users);
                 exit(0);
 
             default:
@@ -502,7 +507,7 @@ void return_function(int *tickets_in_profile)
 //###########################################################################//
 //                               Profile                                     //
 //###########################################################################//
-void run_profile(profile_struct* user, int* logout)
+void run_profile(profile_struct* user, int* logout, int* nr_users)
 {
     int choice;
     int tickets_in_profile;
@@ -528,7 +533,7 @@ void run_profile(profile_struct* user, int* logout)
                 profile_balance(user);
                 break;
             case 4:
-                delete_profile(user);
+                delete_profile(user, nr_users);
                 *logout = 1;
                 next = true;
                 break;
@@ -586,41 +591,44 @@ void profile_balance(profile_struct* my_profile)
     }
 }
 
-void delete_profile( profile_struct* user)
+void delete_profile( profile_struct* user, int* nr_users)
 {
-    char data[MAX_LINES];
-    FILE *ifp;
-    ifp = fopen("../Server/server_users.txt", "r");
+    FILE* file;
+    accounts user_list[*nr_users];
 
-    /* This section gets liens from server_users.txt and saves each line as individual elements of char array data*/
-    if (ifp == NULL)
+    file = fopen("../Server/server_users.txt", "r");
+    if (file == NULL)
     {
         printf("Error opening file.\n");
     }
-
-    int line = 0;
-    while(!feof(ifp) && !ferror(ifp))
+    else
     {
-        if(fgets(&data[line], MAX_LEN, ifp) != NULL)
+        for(int i = 0; i < *nr_users; i++)
         {
-            line++;
+            fscanf(file,"%s %s", user_list[i].username, user_list[i].password);
         }
     }
-    fclose(ifp);
-    /* This section writes all lines from data array into server_users.txt as long as the current logged in users username isn't part of the string*/
-    ifp = fopen("../Server/server_users.txt", "w");
+    fclose(file);
 
-    int linew = 0;
-
-    while(!feof(ifp) && !ferror(ifp))
+    file = fopen("../Server/server_users.txt", "w");
+    if (file == NULL)
     {
-        if(strstr(&data[linew], user->username) == NULL)
-        {       /*  if strstr returns NULL username isnt part of data line, and is not the username being searched for*/
-            printf("%s", &data[linew]);
-            linew++;
+        printf("Error opening file.\n");
+    }
+    else
+    {
+        for(int i = 0; i < *nr_users; i++)
+        {
+            if(strcmp(user_list[i].username,user->username) == 0)
+            {}
+            else
+            {
+                fprintf(file,"%s %s\n", user_list[i].username, user_list[i].password);
+            }
         }
     }
-    fclose(ifp);
+    fclose(file);
+    *nr_users = *nr_users - 1;
 }
 /**
  * Adds the new_ticket to the list of tickets under my_profile. Afterwards the Profile along with
