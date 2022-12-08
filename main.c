@@ -331,12 +331,14 @@ int payment(int *checkout_choice, int ticket_type, int number_of_tickets, profil
                 // UPDATE PROFILE WITH TICKETS FUNCTION HERE
                 if(ticket_type == 1)
                 {
+                    new_ticket.available = new_ticket.available - number_of_tickets;
                     strcpy(new_ticket.type, "Normal");
                     strcpy(new_ticket.price, "100");
                     update_profile(new_ticket, user, NORMAL_PRICE);
                 }
                 else if (ticket_type == 2)
                 {
+                    new_ticket.available = new_ticket.available - number_of_tickets;
                     strcpy(new_ticket.type, "VIP");
                     strcpy(new_ticket.price, "200");
                     update_profile(new_ticket, user, VIP_PRICE);
@@ -414,6 +416,8 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile)
 {
     int ticket_number;
     ticket_return all_tickets[50];
+    ticket_struct tickets[*tickets_in_profile];
+
     char txt[] = ".txt";
     char filename[35] = "../Server/";
     strcat(filename, my_profile->username);
@@ -525,8 +529,10 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile)
     // BALANCE GOES UP, PRICES NEEDED, IDENTIFIER OF TICKET TYPE IN TEXT FILE NEEDED
 
     my_profile->balance = my_profile->balance + atoi(all_tickets[ticket_number].price);
-    printf("YOUR NEW BALANCE IS = %d\n",my_profile->balance);
+
     // NUMBER OF TICKETS GOES UP HERE
+
+    tickets->available = tickets->available + 1 ;
 
     fclose(tickets_returned);
 }
