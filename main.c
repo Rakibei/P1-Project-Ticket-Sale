@@ -370,7 +370,11 @@ void fill_tickets_struct(int *tickets_in_profile,profile_struct* my_profile)
     int character;
     int j=0;
     ticket_return all_tickets[50];
-    FILE* tickets_temp = fopen("../Server/Test.txt","r"); // NAME OF FINAL TICKET TEXT FILE HERE
+    char txt[] = ".txt";
+    char filename[35] = "../Server/";
+    strcat(filename, my_profile->username);
+    strcat(filename,txt);
+    FILE* tickets_temp = fopen(filename,"r");// NAME OF FINAL TICKET TEXT FILE HERE
 
     if (tickets_temp == NULL)
     {
@@ -410,7 +414,12 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile)
 {
     int ticket_number;
     ticket_return all_tickets[50];
-    FILE* tickets_returned = fopen("../Server/Test.txt","w");// NAME OF FINAL TICKET TEXT FILE HERE
+    char txt[] = ".txt";
+    char filename[35] = "../Server/";
+    strcat(filename, my_profile->username);
+    strcat(filename,txt);
+    FILE* tickets_returned = fopen(filename,"w");// NAME OF FINAL TICKET TEXT FILE HERE
+
 
     if (tickets_returned == NULL)
     {
