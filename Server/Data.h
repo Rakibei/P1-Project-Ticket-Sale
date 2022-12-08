@@ -54,12 +54,18 @@ typedef struct {
     char price[20];
 }ticket_return;
 
+typedef struct{
+    char user[30];
+    char code[50];
+    int usebalance;
+}referral_struct;
+
 void login(profile_struct *user, int nr_users, bool *next);
 void regis(int* nr_users);
 void view_tickets(int nr_tickets, profile_struct* user);
-void run_navigation_menu(profile_struct *user, int nr_users, bool next);
-void main_menu(profile_struct *user, int choice, int nr_users, bool next);
-void run_profile(profile_struct *user, int* logout);
+void run_navigation_menu(profile_struct *user, int nr_users, bool next, referral_struct* referrals_array);
+void main_menu(profile_struct *user, int choice, int nr_users, bool next, referral_struct* referrals_array);
+void run_profile(profile_struct *user, int* logout, referral_struct* referrals_array);
 void print_tickets(profile_struct* my_profile);
 void profile_balance(profile_struct* my_profile);
 void delete_profile(profile_struct* user);
@@ -68,6 +74,10 @@ int amount_of_tickets(int *number_of_tickets, int *amount_choice);
 int type_of_ticket(int *ticket_type, int *ticket_choice);
 int payment(int *checkout_choice, int ticket_type, int number_of_tickets, profile_struct* user, ticket_struct new_ticket);
 void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int prize);
+void profile_referral(profile_struct* user, referral_struct* referrals_array);
+void generate_referral(profile_struct* user);
+void update_referrals_array(profile_struct* user, referral_struct* referrals_array);
+void check_referral(profile_struct* my_profile, referral_struct* referrals_array);
 void deallocate_ticket_list(ticket_list* list);
 void run_return_tickets(int *tickets_in_profile);
 void fill_tickets_struct(int *tickets_in_profile);

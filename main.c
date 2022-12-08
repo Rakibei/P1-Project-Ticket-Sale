@@ -5,10 +5,14 @@ int main()
     int choice = 1, balance = 1000, nr_users = 1;//nr_users should be updated on the server side.
     bool next = false;                           //We must do it manually.
     profile_struct user = {"Test", balance, NULL};
+    referral_struct referrals_array[100];
 
-    main_menu(&user, choice, nr_users, next);
+    main_menu(&user, choice, nr_users, next, referrals_array);
 
-    run_navigation_menu(&user, nr_users, next);
+    generate_referral(&user);
+    update_referrals_array(&user, referrals_array);
+
+    run_navigation_menu(&user, nr_users, next, referrals_array);
 
     deallocate_ticket_list(&user.list_of_tickets);
 
@@ -17,7 +21,7 @@ int main()
 //###########################################################################//
 //                                Menus                                      //
 //###########################################################################//
-void main_menu(profile_struct *user, int choice, int nr_users, bool next)
+void main_menu(profile_struct *user, int choice, int nr_users, bool next, referral_struct* referrals_array)
 {
     do
     {
@@ -31,6 +35,7 @@ void main_menu(profile_struct *user, int choice, int nr_users, bool next)
         else if (choice == 2)
         {
             regis(&nr_users);
+            check_referral(user, referrals_array);
         }
         else
         {
@@ -39,7 +44,7 @@ void main_menu(profile_struct *user, int choice, int nr_users, bool next)
     } while(next == false);
 }
 
-void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is the menu function
+void run_navigation_menu(profile_struct *user, int nr_users, bool next, referral_struct* referrals_array)//this is the menu function
 {
     int logout = 0;
     int choice = 1;
@@ -58,14 +63,14 @@ void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is
                 break;
 
             case 2:
-                main_menu(user, choice, nr_users, next);
+                main_menu(user, choice, nr_users, next, referrals_array);
 
                 break;
 
             case 3:
-                run_profile(user,&logout);
+                run_profile(user,&logout, referrals_array);
                 if (logout == 1){
-                    main_menu(user, choice, nr_users, next);
+                    main_menu(user, choice, nr_users, next, referrals_array);
                 }
 
                 break;
@@ -469,7 +474,7 @@ void return_function(int *tickets_in_profile)
 //###########################################################################//
 //                               Profile                                     //
 //###########################################################################//
-void run_profile(profile_struct* user, int* logout)
+void run_profile(profile_struct* user, int* logout, referral_struct* referrals_array)
 {
     int choice;
     bool next = false;
@@ -477,9 +482,10 @@ void run_profile(profile_struct* user, int* logout)
     do{
         printf("[1] My Tickets\n"
                "[2] Balance\n"
-               "[3] Delete Profile\n"
-               "[4] Log Out\n"
-               "[5] Back to Main Menu\n");
+               "[3] My Referral code\n"
+               "[4] Delete Profile\n"
+               "[5] Log Out\n"
+               "[6] Back to Main Menu\n");
         scanf("%d", &choice);
 
         switch(choice)
@@ -491,15 +497,18 @@ void run_profile(profile_struct* user, int* logout)
                 profile_balance(user);
                 break;
             case 3:
+                profile_referral(user, referrals_array);
+                break;
+            case 4:
                 delete_profile(user);
                 *logout = 1;
                 next = true;
                 break;
-            case 4:
+            case 5:
                 *logout = 1;
                 next = true;
                 break;
-            case 5:
+            case 6:
                 next = true;
                 break;
             default:
@@ -641,4 +650,159 @@ void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int pr
         current = current->next;
     }
     fclose(storage);
+}
+
+/**
+ * Function prints the users referral code
+ * Goes through all users saved in referrals_array array,
+ * and if one matches the logged in users username, the corresponding referral code is printed.
+ * @param user = The logged in user
+ * @param referrals_array = Array of referral structs
+ */
+void profile_referral(profile_struct* user, referral_struct* referrals_array){
+    for (int i = 0; i < MAX_LINES; i++){
+        if (strcmp(referrals_array[i].user, user->username) == 0){
+            printf("Your referral code is:\n"
+                   "%s\n", referrals_array[i].code);
+        }
+    }
+    printf("[1] Go back\n");
+    int choice;
+    scanf("%d", &choice);
+}
+
+
+//###########################################################################//
+//                               Referrals                                   //
+//###########################################################################//
+
+/**
+ * Function that writes a referral code into Referrals.txt if
+ * the logged in user dosen't already have a referral code.
+ * Only used for user Test.
+ * Only used for testing.
+ * @param user = The logged in user
+ */
+void generate_referral(profile_struct* user){
+    char lines[MAX_LINES];
+    FILE* rft;
+    rft = fopen("../Server/Referrals.txt", "r");
+
+    /* This section gets lines from Referrals.txt and saves each line as individual elements of char array lines*/
+    if (rft == NULL)
+    {
+        printf("Error opening file.\n");
+    }
+
+    int line = 0;
+    while(!feof(rft) && !ferror(rft))
+    {
+        if(fgets(&lines[line], MAX_LEN, rft) != NULL)
+        {
+            line++;
+        }
+    }
+    fclose(rft);
+
+    /* This section writes char array lines into Referrals.txt, and if username isn't substring of any lines, a referral line is generated*/
+    int user_not_found = 1;
+    FILE* rtf;
+    rtf = fopen("../Server/Referrals.txt","w");
+    if (rft == NULL){
+        printf("Error opening the file.");
+    }
+    for(int i = 0; i < line; i++){
+        fprintf(rtf,"%s", &lines[i]);
+        if (strstr(&lines[i], user->username) != NULL){
+            user_not_found = 0;
+        }
+    }
+
+    if(user_not_found == 1){
+        fprintf(rtf,"%s\tREFER-%s\t0", user->username, user->username);
+    }
+
+    fclose(rtf);
+
+}
+
+/**
+ * When user logs in, function check if their referral code has been used by another user.
+ * If referral code has been used logged-in user is given
+ * +10 to their balance for each use and usebalance is then set to 0.
+ * @param user = Logged in user
+ * @param referrals_array = Array of referral structs
+ */
+void update_referrals_array(profile_struct* user, referral_struct* referrals_array){
+    /* This section scans Referrals.txt into referrals_array*/
+    FILE* rft;
+    rft = fopen("../Server/Referrals.txt", "r");
+    if (rft == NULL)
+    {
+        printf("Error opening file.\n");
+    }
+    int i = 0;
+    while((rft = fopen("../Server/Referrals.txt", "r")) != NULL) {
+        while (i < MAX_LINES) {
+            fscanf(rft, "%s\t%s\t%d", referrals_array[i].user, referrals_array[i].code, &referrals_array[i].usebalance);
+            ++i;
+        }
+    }
+    fclose(rft);
+
+    /* This section updates usebalance and users balance*/
+    for (int j = 0; j < MAX_LINES; j++){
+        if (strcmp(referrals_array[j].user, user->username) == 0){
+            if (referrals_array[j].usebalance > 0){
+                user->balance = user->balance + (referrals_array[j].usebalance * 10);
+                referrals_array[j].usebalance = 0;
+            }
+        }
+    }
+}
+
+/**
+ * Used when registering
+ * Asks if user has a referral code
+ * If code exists user is given +10 to their balance,
+ * and the referral codes usebalance is updated with +1.
+ * @param my_profile = The user's profile
+ * @param referrals_array = Array of referral structs
+ */
+void check_referral(profile_struct* my_profile, referral_struct* referrals_array){
+    int choice;
+    char user_code[50];
+    printf("Do you have a referral code?\n"
+           "[1] Yes"
+           "[2] No");
+    scanf("%d", &choice);
+    if (choice == 1) {
+        printf("Enter referral code:\n");
+        scanf("%s", user_code);
+
+        /* This section scans Referrals.txt into referrals_array*/
+        FILE *rft;
+        rft = fopen("../Server/Referrals.txt", "r");
+
+        if (rft == NULL) {
+            printf("Error opening file.\n");
+        }
+        int i = 0;
+        while ((rft = fopen("../Server/Referrals.txt", "r")) != NULL) {
+            while (i < MAX_LINES) {
+                fscanf(rft, "%s\t%s\t%d", referrals_array[i].user, referrals_array[i].code, referrals_array[i].usebalance);
+                ++i;
+            }
+        }
+        fclose(rft);
+
+        /* This section checks if the referral code inputted by the user is part of referrals_array*/
+        for (int j = 0; j < MAX_LINES; j++) {
+            if (strcmp(referrals_array[j].code, user_code) == 0) {
+                my_profile->balance = my_profile->balance + 10;
+                referrals_array[j].usebalance++;
+            }
+        }
+    }
+
 }
