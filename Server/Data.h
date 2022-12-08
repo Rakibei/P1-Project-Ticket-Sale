@@ -60,12 +60,12 @@ typedef struct {
 void login(profile_struct *user, int nr_users, bool *next);
 void regis(int* nr_users);
 void view_tickets(int nr_tickets, profile_struct* user);
-void run_navigation_menu(profile_struct *user, int nr_users, bool next);
-void main_menu(profile_struct *user, int choice, int nr_users, bool next);
-void run_profile(profile_struct *user, int* logout);
+void run_navigation_menu(profile_struct *user, int* nr_users, bool next);
+void main_menu(profile_struct *user, int choice, int* nr_users, bool next);
+void run_profile(profile_struct *user, int* logout, int* nr_users);
 void print_tickets(profile_struct* my_profile);
 void profile_balance(profile_struct* my_profile);
-void delete_profile(profile_struct* user);
+void delete_profile(profile_struct* user, int* nr_users);
 void run_purchase_tickets(int choice, profile_struct* user, ticket_struct new_ticket);
 int amount_of_tickets(int *number_of_tickets, int *amount_choice);
 int type_of_ticket(int *ticket_type, int *ticket_choice);
@@ -75,4 +75,7 @@ void deallocate_ticket_list(ticket_list* list);
 void run_return_tickets(int *tickets_in_profile);
 void fill_tickets_struct(int *tickets_in_profile);
 void return_function(int *tickets_in_profile);
+void initialize(profile_struct* my_profile);
+void nr_users_on_server(int* nr_users);
+void update_nr_users_on_server(int nr_users);
 #endif //P1_PROJECT_DATA_H

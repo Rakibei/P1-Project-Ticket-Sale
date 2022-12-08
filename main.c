@@ -2,54 +2,58 @@
 
 int main()
 {
-    int choice = 1, balance = 1000, nr_users = 1;//nr_users should be updated on the server side.
-    bool next = false;                           //We must do it manually.
+    int choice = 1, balance = 1000, nr_users = 1;
+    bool next = false;
     profile_struct user = {"Test", balance, NULL};
+    nr_users_on_server(&nr_users);
 
-    main_menu(&user, choice, nr_users, next);
+    main_menu(&user, choice, &nr_users, next);
 
-    run_navigation_menu(&user, nr_users, next);
-
-    deallocate_ticket_list(&user.list_of_tickets);
+    run_navigation_menu(&user, &nr_users, next);
 
     return 0;
 }
 //###########################################################################//
 //                                Menus                                      //
 //###########################################################################//
-void main_menu(profile_struct *user, int choice, int nr_users, bool next)
+void main_menu(profile_struct *user, int choice, int* nr_users, bool next)
 {
     do
     {
-        printf("Do you wish to Login [1] or Register [2]?\n");
+        printf("[1] Login\n[2] Register\n[3] Exit program\n");
         scanf("%d", &choice);
 
-        if (choice == 1)
+        switch(choice)
         {
-            login(user, nr_users, &next);
-        }
-        else if (choice == 2)
-        {
-            regis(&nr_users);
-        }
-        else
-        {
-            exit(0);
+            case 1:
+                login(user, *nr_users, &next);
+                break;
+            case 2:
+                regis(nr_users);
+                break;
+            case 3:
+                printf("%d", *nr_users);
+                update_nr_users_on_server(*nr_users);
+                exit(0);
+                break;
+            default:
+                printf("Invalid Input!");
+                break;
         }
     } while(next == false);
 }
 
-void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is the menu function
+void run_navigation_menu(profile_struct *user, int* nr_users, bool next)//this is the menu function
 {
     int logout = 0;
     int choice = 1;
 
     while (true)
     {
-        printf("1) Purchase tickets\n");
-        printf("2) Logout\n");
-        printf("3) Profile Menu\n");
-        printf("4) Exit program\n");
+        printf("[1] Purchase tickets\n");
+        printf("[2] Logout\n");
+        printf("[3] Profile Menu\n");
+        printf("[4] Exit program\n");
         scanf("%d", &choice);
 
         switch (choice) {
@@ -59,18 +63,18 @@ void run_navigation_menu(profile_struct *user, int nr_users, bool next)//this is
 
             case 2:
                 main_menu(user, choice, nr_users, next);
-
                 break;
 
             case 3:
-                run_profile(user,&logout);
+                run_profile(user,&logout, nr_users);
                 if (logout == 1){
                     main_menu(user, choice, nr_users, next);
                 }
-
                 break;
 
             case 4:
+                printf("%d", *nr_users);
+                update_nr_users_on_server(*nr_users);
                 exit(0);
 
             default:
@@ -94,7 +98,7 @@ void login(profile_struct* user, int nr_users, bool* next)
         exit(1);
     }
 
-    printf("Enter your username\n");
+    printf("Enter username\n");
     scanf("%s", username);
     printf("Enter password\n");
     scanf("%s", password);
@@ -106,6 +110,7 @@ void login(profile_struct* user, int nr_users, bool* next)
         {
             printf("\nSuccessful Login\n");
             strcpy(user->username, username);
+            initialize(user);
             *next = true;
             break;
         }
@@ -217,7 +222,7 @@ void view_tickets(int nr_tickets, profile_struct* user)
                 break;
             case 2:
                 temp = temp + 1;
-                if(temp > nr_tickets)
+                if(temp >= nr_tickets)
                 {
                     temp = temp - 1;
                     printf("There are no other next tickets.\n");
@@ -225,14 +230,14 @@ void view_tickets(int nr_tickets, profile_struct* user)
                 break;
             case 3:
                 temp = temp - 1;
-                if(temp > nr_tickets)
+                if(temp < 0)
                 {
                     temp = temp + 1;
                     printf("There is no previous ticket.\n");
                 }
                 break;
             case 4:
-                choice = -1;//temporary, should send to main menu.
+                choice = -1;
                 break;
             default:
                 printf("Wrong input, try again.\n");
@@ -276,7 +281,7 @@ int amount_of_tickets(int *number_of_tickets, int *amount_choice)
     printf("How many ticket(s) would you like?\n");
     scanf("%d", number_of_tickets);
 
-    printf("You have chosen %d ticket(s). Press 1 to continue or press 2 to go back\n",*number_of_tickets);
+    printf("You have chosen %d ticket(s).\n[1] Continue\n[2] Back\n",*number_of_tickets);
     scanf("%d", amount_choice);
     return *amount_choice;
 }
@@ -284,10 +289,10 @@ int amount_of_tickets(int *number_of_tickets, int *amount_choice)
 int type_of_ticket(int *ticket_type, int *ticket_choice)
 {
     printf("Choose your type of ticket(s).\n");
-    printf("Press 1 for normal ticket(s) or press 2 for VIP ticket(s)\n");
+    printf("[1] Normal ticket(s)\n[2] VIP ticket(s)\n");
     scanf("%d", ticket_type);
 
-    printf("Press 1 to continue or 2 to go back.\n");
+    printf("[1] Continue\n[2] Back\n");
     scanf("%d",ticket_choice);
 
     return *ticket_choice;
@@ -310,7 +315,7 @@ int payment(int *checkout_choice, int ticket_type, int number_of_tickets, profil
 
     printf("Your total is = %d\n",total);
     printf("Your balance is = %d\n", user->balance);
-    printf("Press 1 to complete purchase or press 2 to go back\n");
+    printf("[1] Purchase\n[2] Back\n");
     scanf("%d", checkout_choice);
 
     if (*checkout_choice == 1)
@@ -319,9 +324,9 @@ int payment(int *checkout_choice, int ticket_type, int number_of_tickets, profil
         {
             printf("Payment successful\n");
             printf("New balance is = %d\n", (user->balance - total));
-            printf("You can now access your ticket(s) in the profile menu, enjoy your event.\n");
+            printf("You can now access your ticket(s) in the profile menu, enjoy your event.\n\n");
             // UPDATE NUMBER OF TICKETS HERE
-            for(int i=1; i <= number_of_tickets; ++i)
+            for(int i=0; i < number_of_tickets; ++i)
             {
                 // UPDATE PROFILE WITH TICKETS FUNCTION HERE
                 if(ticket_type == 1)
@@ -337,7 +342,6 @@ int payment(int *checkout_choice, int ticket_type, int number_of_tickets, profil
         else if(user->balance < total)
         {
             printf("Not enough funds for purchase, refill and try again\n");
-            exit(EXIT_FAILURE);
         }
     }
     return *checkout_choice;
@@ -411,7 +415,7 @@ void return_function(int *tickets_in_profile)
     printf("Which ticket would you like to return?\n");
     for (int i = 0;  i < *tickets_in_profile; ++i )
     {
-        printf("%d) %s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+        printf("[%d] %s\t%s\t%s\t%s\t%s\t%s\t%s\n",
                i,
                all_tickets[i].category,
                all_tickets[i].genre,
@@ -503,7 +507,7 @@ void return_function(int *tickets_in_profile)
 //###########################################################################//
 //                               Profile                                     //
 //###########################################################################//
-void run_profile(profile_struct* user, int* logout)
+void run_profile(profile_struct* user, int* logout, int* nr_users)
 {
     int choice;
     int tickets_in_profile;
@@ -529,7 +533,7 @@ void run_profile(profile_struct* user, int* logout)
                 profile_balance(user);
                 break;
             case 4:
-                delete_profile(user);
+                delete_profile(user, nr_users);
                 *logout = 1;
                 next = true;
                 break;
@@ -538,6 +542,7 @@ void run_profile(profile_struct* user, int* logout)
                 next = true;
                 break;
             case 6:
+                *logout = 0;
                 next = true;
                 break;
             default:
@@ -548,40 +553,20 @@ void run_profile(profile_struct* user, int* logout)
 
 void print_tickets(profile_struct* my_profile)
 {
-    int choice = 0;
-    FILE *ifp;
+    char ch;
+    FILE* file;
     char txt[] = ".txt";
     char filename[35] = "../Server/";
     strcat(filename, my_profile->username);
     strcat(filename,txt);
 
-    ifp = fopen(filename, "r");
-    /* Fejl besked hvis file pointer returnerer NULL*/
-    if ((ifp = fopen(filename, "r")) == NULL)
-    {
-        printf("Error! File cannot be opened.");
-        exit(1);
-    }
-    /* Hvis file pointer ikke retunerer NULL kører dette*/
-    /* Printer billetter fra .txt fil */
-    char s;
-
-    while((ifp = fopen(filename, "r")) != NULL)
-    {
-        while(s != EOF)
-        {
-            s = fgetc(ifp);
-            printf("%c", s);
-        }
-    }
-    fclose(ifp);
-
-    printf("\nPress 1 to go back \n");
-    scanf("%d", &choice);
-    if (choice == 1)
-    {
-        /* Go back */
-    }
+    file = fopen(filename, "r");
+    do{
+        ch = fgetc(file);
+        printf("%c", ch);
+    } while (ch != EOF);
+    printf("\n");
+    fclose(file);
 }
 
 void profile_balance(profile_struct* my_profile)
@@ -589,15 +574,15 @@ void profile_balance(profile_struct* my_profile)
     int b_choice;
 
     printf("Your balance is %d\n", my_profile->balance);
-    printf("1. Deposit balance\n");
-    printf("2. Go back\n");
+    printf("[1] Deposit balance\n");
+    printf("[2] Go back\n");
     scanf("%d", &b_choice);
 
     if (b_choice == 1)
     {
         int deposit;
 
-        printf("Amount to be deposited: \n");
+        printf("Amount to be deposited:\n");
         scanf("%d", &deposit);
 
         my_profile->balance = my_profile->balance + deposit;
@@ -606,41 +591,44 @@ void profile_balance(profile_struct* my_profile)
     }
 }
 
-void delete_profile( profile_struct* user)
+void delete_profile( profile_struct* user, int* nr_users)
 {
-    char data[MAX_LINES];
-    FILE *ifp;
-    ifp = fopen("../Server/server_users.txt", "r");
+    FILE* file;
+    accounts user_list[*nr_users];
 
-    /* This section gets liens from server_users.txt and saves each line as individual elements of char array data*/
-    if (ifp == NULL)
+    file = fopen("../Server/server_users.txt", "r");
+    if (file == NULL)
     {
         printf("Error opening file.\n");
     }
-
-    int line = 0;
-    while(!feof(ifp) && !ferror(ifp))
+    else
     {
-        if(fgets(&data[line], MAX_LEN, ifp) != NULL)
+        for(int i = 0; i < *nr_users; i++)
         {
-            line++;
+            fscanf(file,"%s %s", user_list[i].username, user_list[i].password);
         }
     }
-    fclose(ifp);
-    /* This section writes all lines from data array into server_users.txt as long as the current logged in users username isn't part of the string*/
-    ifp = fopen("../Server/server_users.txt", "w");
+    fclose(file);
 
-    int linew = 0;
-
-    while(!feof(ifp) && !ferror(ifp))
+    file = fopen("../Server/server_users.txt", "w");
+    if (file == NULL)
     {
-        if(strstr(&data[linew], user->username) == NULL)
-        {       /*  if strstr returns NULL username isnt part of data line, and is not the username being searched for*/
-            printf("%s", &data[linew]);
-            linew++;
+        printf("Error opening file.\n");
+    }
+    else
+    {
+        for(int i = 0; i < *nr_users; i++)
+        {
+            if(strcmp(user_list[i].username,user->username) == 0)
+            {}
+            else
+            {
+                fprintf(file,"%s %s\n", user_list[i].username, user_list[i].password);
+            }
         }
     }
-    fclose(ifp);
+    fclose(file);
+    *nr_users = *nr_users - 1;
 }
 /**
  * Adds the new_ticket to the list of tickets under my_profile. Afterwards the Profile along with
@@ -651,11 +639,6 @@ void delete_profile( profile_struct* user)
  */
 void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int prize)
 {
-    ticket_node* new_node = (ticket_node*) malloc(sizeof(ticket_node));
-    new_node->ticket = new_ticket;
-    new_node->next = my_profile->list_of_tickets.head;
-    my_profile->list_of_tickets.head = new_node;
-
     my_profile->balance = my_profile->balance - prize;
 
     char txt[] = ".txt";
@@ -664,21 +647,13 @@ void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int pr
     strcat(filename,txt);
 
     FILE* storage = fopen(filename, "a");
-    //fprintf(storage,"%s\n", my_profile->username);
-    ticket_node* current = my_profile->list_of_tickets.head;
-
-
-    while(current != NULL)
-    {
-        fprintf(storage,"\n%s\t%s\t%s\t%s\t%s\t%s\t%s",
-                current->ticket.category,
-                current->ticket.genre,
-                current->ticket.performing,
-                current->ticket.opponent,
-                current->ticket.time,
-                current->ticket.date,
-                current->ticket.location);
-        current = current->next;
-    }
+    fprintf(storage,"\n%s\t%s\t%s\t%s\t%s\t%s\t%s",
+            new_ticket.category,
+            new_ticket.genre,
+            new_ticket.performing,
+            new_ticket.opponent,
+            new_ticket.time,
+            new_ticket.date,
+            new_ticket.location);
     fclose(storage);
 }

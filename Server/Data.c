@@ -19,3 +19,46 @@ void deallocate_ticket_list(ticket_list* list)
 
     list->head = NULL;
 }
+
+void initialize(profile_struct* my_profile)
+{
+    FILE* file;
+    char txt[] = ".txt";
+    char filename[35] = "../Server/";
+    strcat(filename, my_profile->username);
+    strcat(filename,txt);
+
+    file = fopen(filename,"r");
+    if(file == NULL)
+    {
+        fclose(file);
+        file = fopen(filename,"w");
+    }
+    fclose(file);
+}
+
+void nr_users_on_server(int* nr_users)
+{
+    FILE* server;
+    server = fopen("../Server/nr_users.txt", "r");
+    if(server == NULL)
+    {
+        fclose(server);
+        server = fopen("../Server/nr_users.txt","w");
+        fprintf(server,"%d", *nr_users);
+        fclose(server);
+    }
+    else
+    {
+        fscanf(server,"%d", nr_users);
+        fclose(server);
+    }
+}
+
+void update_nr_users_on_server(int nr_users)
+{
+    FILE* server;
+    server = fopen("../Server/nr_users.txt", "w");
+    fprintf(server,"%d", nr_users);
+    fclose(server);
+}
