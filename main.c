@@ -491,6 +491,7 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile)
                             all_tickets[i].type,
                             all_tickets[i].price);
                 }
+
                     // IF WE WANT TO RETURN THE LAST TICKET LETS SAY NUMBER 5 OUT OF 5, IT WOULD BE CHOICE 4 BECAUSE
                     // 0 ALSO IS A PART OF THE STRUCT, THE NUMBER 4 WON'T ENTER THIS PART OF THE FUNCTION
                     // BECAUSE OF THE FIRST IF "if(i != ticket_number)", THEREFORE THE TICKET BEFORE 4 WILL BE THE LAST = 3.
