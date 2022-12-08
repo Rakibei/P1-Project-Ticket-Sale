@@ -19,3 +19,20 @@ void deallocate_ticket_list(ticket_list* list)
 
     list->head = NULL;
 }
+
+void initialize(profile_struct* my_profile)
+{
+    FILE* file;
+    char txt[] = ".txt";
+    char filename[35] = "../Server/";
+    strcat(filename, my_profile->username);
+    strcat(filename,txt);
+
+    file = fopen(filename,"r");
+    if(file == NULL)
+    {
+        fclose(file);
+        file = fopen(filename,"w");
+    }
+    fclose(file);
+}

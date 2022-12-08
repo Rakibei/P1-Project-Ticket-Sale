@@ -75,4 +75,5 @@ void deallocate_ticket_list(ticket_list* list);
 void run_return_tickets(int *tickets_in_profile);
 void fill_tickets_struct(int *tickets_in_profile);
 void return_function(int *tickets_in_profile);
+void initialize(profile_struct* my_profile);
 #endif //P1_PROJECT_DATA_H

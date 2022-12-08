@@ -105,6 +105,7 @@ void login(profile_struct* user, int nr_users, bool* next)
         {
             printf("\nSuccessful Login\n");
             strcpy(user->username, username);
+            initialize(user);
             *next = true;
             break;
         }
@@ -547,36 +548,20 @@ void run_profile(profile_struct* user, int* logout)
 
 void print_tickets(profile_struct* my_profile)
 {
-    int choice = 0;
-    FILE *ifp;
+    char ch;
+    FILE* file;
     char txt[] = ".txt";
     char filename[35] = "../Server/";
     strcat(filename, my_profile->username);
     strcat(filename,txt);
 
-    ifp = fopen(filename, "r");
-    /* Fejl besked hvis file pointer returnerer NULL*/
-    if ((ifp = fopen(filename, "r")) == NULL)
-    {
-        printf("Error! File cannot be opened.");
-        exit(1);
-    }
-    /* Hvis file pointer ikke retunerer NULL kører dette*/
-    /* Printer billetter fra .txt fil */
-    char s;
-
-    while((ifp = fopen(filename, "r")) != NULL)
-    {
-        while(s != EOF)
-        {
-            s = fgetc(ifp);
-            printf("%c", s);
-        }
-    }
-    fclose(ifp);
-
-    printf("\n[Any button] Back\n");
-    scanf("%d", &choice);
+    file = fopen(filename, "r");
+    do{
+        ch = fgetc(file);
+        printf("%c", ch);
+    } while (ch != EOF);
+    printf("\n");
+    fclose(file);
 }
 
 void profile_balance(profile_struct* my_profile)
