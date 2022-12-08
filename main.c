@@ -10,8 +10,6 @@ int main()
 
     run_navigation_menu(&user, nr_users, next);
 
-    deallocate_ticket_list(&user.list_of_tickets);
-
     return 0;
 }
 //###########################################################################//
@@ -648,11 +646,6 @@ void delete_profile( profile_struct* user)
  */
 void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int prize)
 {
-    ticket_node* new_node = (ticket_node*) malloc(sizeof(ticket_node));
-    new_node->ticket = new_ticket;
-    new_node->next = my_profile->list_of_tickets.head;
-    my_profile->list_of_tickets.head = new_node;
-
     my_profile->balance = my_profile->balance - prize;
 
     char txt[] = ".txt";
@@ -661,21 +654,13 @@ void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int pr
     strcat(filename,txt);
 
     FILE* storage = fopen(filename, "a");
-    //fprintf(storage,"%s\n", my_profile->username);
-    ticket_node* current = my_profile->list_of_tickets.head;
-
-
-    while(current != NULL)
-    {
-        fprintf(storage,"\n%s\t%s\t%s\t%s\t%s\t%s\t%s",
-                current->ticket.category,
-                current->ticket.genre,
-                current->ticket.performing,
-                current->ticket.opponent,
-                current->ticket.time,
-                current->ticket.date,
-                current->ticket.location);
-        current = current->next;
-    }
+    fprintf(storage,"\n%s\t%s\t%s\t%s\t%s\t%s\t%s",
+            new_ticket.category,
+            new_ticket.genre,
+            new_ticket.performing,
+            new_ticket.opponent,
+            new_ticket.time,
+            new_ticket.date,
+            new_ticket.location);
     fclose(storage);
 }
