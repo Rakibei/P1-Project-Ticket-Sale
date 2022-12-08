@@ -1,4 +1,1 @@
-Sport	Icehockey	Aalborg_Pirates	Esbjerg_Energy	21:00	16/12	Gigantium_Aalborg
-Sport	Handball	Denmark	Germany	21:15	03/02	Viborg_Stadion_Center
-Sport	Handball	Denmark	Germany	21:15	03/02	Viborg_Stadion_Center
-Sport	Handball	Denmark	Germany	21:15	03/02	Viborg_Stadion_Center
+Music	Rap	Rotte_Records	60_min	20:00	24/12	TemaBar_Viborg	Normal	100
