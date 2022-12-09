@@ -23,6 +23,8 @@ typedef struct{
     char date[20];
     char location[30];
     int available;
+    char type[20];
+    char price[20];
 } ticket_struct;
 
 typedef struct ticket_node{
@@ -52,9 +54,9 @@ typedef struct {
     char opponent[20];
     char time[20];
     char date[20];
-    char venue[20];
-    //char type[20];
-    //char price[20];
+    char venue[30];
+    char type[20];
+    char price[20];
 }ticket_return;
 
 void login(profile_struct *user, int nr_users, bool *next);
@@ -62,7 +64,7 @@ void regis(int* nr_users);
 void view_tickets(int nr_tickets, profile_struct* user);
 void run_navigation_menu(profile_struct *user, int* nr_users, bool next);
 void main_menu(profile_struct *user, int choice, int* nr_users, bool next);
-void run_profile(profile_struct *user, int* logout, int* nr_users);
+void run_profile(profile_struct *user, int* logout, int* nr_users,profile_struct* my_profile);
 void print_tickets(profile_struct* my_profile);
 void profile_balance(profile_struct* my_profile);
 void delete_profile(profile_struct* user, int* nr_users);
@@ -72,9 +74,9 @@ int type_of_ticket(int *ticket_type, int *ticket_choice);
 int payment(int *checkout_choice, int ticket_type, int number_of_tickets, profile_struct* user, ticket_struct new_ticket);
 void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int prize);
 void deallocate_ticket_list(ticket_list* list);
-void run_return_tickets(int *tickets_in_profile);
-void fill_tickets_struct(int *tickets_in_profile);
-void return_function(int *tickets_in_profile);
+void run_return_tickets(int *tickets_in_profile,profile_struct* my_profile);
+void fill_tickets_struct(int *tickets_in_profile,profile_struct* my_profile);
+void return_function(int *tickets_in_profile,profile_struct* my_profile);
 void initialize(profile_struct* my_profile);
 void nr_users_on_server(int* nr_users);
 void update_nr_users_on_server(int nr_users);
