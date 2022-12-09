@@ -413,9 +413,7 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile)
     int ticket_number;
     ticket_struct tickets[*tickets_in_profile];
 
-
     FILE* tickets_return = fopen(filename,"w");// NAME OF FINAL TICKET TEXT FILE
-
 
 
     if (tickets_return == NULL)
