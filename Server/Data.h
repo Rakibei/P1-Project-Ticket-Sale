@@ -75,7 +75,6 @@ int payment(int *checkout_choice, int ticket_type, int number_of_tickets, profil
 void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int prize);
 void deallocate_ticket_list(ticket_list* list);
 void run_return_tickets(int *tickets_in_profile,profile_struct* my_profile);
-void fill_tickets_struct(int *tickets_in_profile,profile_struct* my_profile);
 void return_function(int *tickets_in_profile,profile_struct* my_profile);
 void initialize(profile_struct* my_profile);
 void nr_users_on_server(int* nr_users);

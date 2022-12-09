@@ -359,49 +359,9 @@ int payment(int *checkout_choice, int ticket_type, int number_of_tickets, profil
  */
 void run_return_tickets(int *tickets_in_profile,profile_struct* my_profile)
 {
-    fill_tickets_struct(tickets_in_profile, my_profile);
     return_function(tickets_in_profile, my_profile);
 }
-/**
- * Function fills struct with information while character in file is not EOF, also opens FILE with tickets in read mode
- * @param tickets_in_profile shows how many tickets are in profile
- * closes tickets FILE
- */
-void fill_tickets_struct(int *tickets_in_profile,profile_struct* my_profile)
-{
-    int character;
-    int j=0;
-    ticket_return all_tickets[50];
-    char txt[] = ".txt";
-    char filename[35] = "../Server/";
-    strcat(filename, my_profile->username);
-    strcat(filename,txt);
-    FILE* tickets_temp = fopen(filename,"r+");// NAME OF FINAL TICKET TEXT FILE
 
-    if (tickets_temp == NULL)
-    {
-        fputs("Error at opening File!", stderr);
-        exit(1);
-    }
-
-    while((character = getc(tickets_temp))!= EOF)
-    {
-        ungetc(character,tickets_temp);
-        fscanf(tickets_temp, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
-                all_tickets[j].category,
-                all_tickets[j].genre,
-                all_tickets[j].performing,
-                all_tickets[j].opponent,
-                all_tickets[j].time,
-                all_tickets[j].date,
-                all_tickets[j].venue,
-                all_tickets[j].type,
-                all_tickets[j].price);
-        ++j;
-    }
-    *tickets_in_profile = j;
-    fclose(tickets_temp);
-}
 /**
  * Function that returns the tickets(deletes from text FILE), return balance to user and ups the number of available
  * tickets.
@@ -414,20 +374,53 @@ void fill_tickets_struct(int *tickets_in_profile,profile_struct* my_profile)
  */
 void return_function(int *tickets_in_profile,profile_struct* my_profile)
 {
-    int ticket_number;
+    int character;
+    int j=0;
     ticket_return all_tickets[50];
-    ticket_struct tickets[*tickets_in_profile];
-
     char txt[] = ".txt";
     char filename[35] = "../Server/";
     strcat(filename, my_profile->username);
     strcat(filename,txt);
-    FILE* tickets_returned = fopen(filename,"w+");// NAME OF FINAL TICKET TEXT FILE
 
+    FILE* tickets_temp = fopen(filename,"r");// NAME OF FINAL TICKET TEXT FILE
 
-    if (tickets_returned == NULL)
+    if (tickets_temp == NULL)
     {
-        fputs("Error at opening File!", stderr);
+        fputs("Error at opening tickets_temp File!", stderr);
+        exit(1);
+    }
+
+    while((character = getc(tickets_temp))!= EOF)
+    {
+        ungetc(character,tickets_temp);
+        fscanf(tickets_temp, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
+               all_tickets[j].category,
+               all_tickets[j].genre,
+               all_tickets[j].performing,
+               all_tickets[j].opponent,
+               all_tickets[j].time,
+               all_tickets[j].date,
+               all_tickets[j].venue,
+               all_tickets[j].type,
+               all_tickets[j].price);
+        ++j;
+    }
+    *tickets_in_profile = j;
+
+    fclose(tickets_temp);
+
+
+    int ticket_number;
+    ticket_struct tickets[*tickets_in_profile];
+
+
+    FILE* tickets_return = fopen(filename,"w");// NAME OF FINAL TICKET TEXT FILE
+
+
+
+    if (tickets_return == NULL)
+    {
+        fputs("Error at opening tickets_return File!", stderr);
         exit(1);
     }
 
@@ -462,7 +455,7 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile)
             {
                 if(*tickets_in_profile - i != 1)
                 {
-                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+                    fprintf(tickets_return,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
                             all_tickets[i].category,
                             all_tickets[i].genre,
                             all_tickets[i].performing,
@@ -475,7 +468,7 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile)
                 }
                 else if(*tickets_in_profile - i == 1)
                 {
-                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
+                    fprintf(tickets_return,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
                             all_tickets[i].category,
                             all_tickets[i].genre,
                             all_tickets[i].performing,
@@ -493,7 +486,7 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile)
             {
                 if(*tickets_in_profile - i != 2)
                 {
-                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+                    fprintf(tickets_return,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
                             all_tickets[i].category,
                             all_tickets[i].genre,
                             all_tickets[i].performing,
@@ -511,7 +504,7 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile)
                     // 5 (TICKETS) - 3(i, THE LAST 'i' BEFORE FUNCTION END) = 2, THEREFORE NO NEWLINE CHARACTER IN THIS ONE
                 else if(*tickets_in_profile - i == 2)
                 {
-                    fprintf(tickets_returned,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
+                    fprintf(tickets_return,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
                             all_tickets[i].category,
                             all_tickets[i].genre,
                             all_tickets[i].performing,
@@ -532,9 +525,9 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile)
 
     // NUMBER OF TICKETS GOES UP HERE
 
-    tickets->available = tickets->available + 1 ;
+    tickets[ticket_number + 1].available = tickets[ticket_number + 1].available + 1 ;
 
-    fclose(tickets_returned);
+    fclose(tickets_return);
 }
 //###########################################################################//
 //                               Profile                                     //
