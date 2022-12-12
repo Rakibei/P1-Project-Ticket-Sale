@@ -46,19 +46,6 @@ typedef struct{
     char username[30];
     char password[30];
 } accounts;
-/*
-typedef struct {
-    char category[20];
-    char genre[20];
-    char performing[20];
-    char opponent[20];
-    char time[20];
-    char date[20];
-    char venue[30];
-    char type[20];
-    char price[20];
-}ticket_return;
- */
 
 void login(profile_struct *user, int nr_users, bool *next);
 void regis(int* nr_users);
