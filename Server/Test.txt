@@ -1,4 +1,7 @@
+
 Sport	Football	Viborg_FF	FC_Kobenhavn	16:00	14/12	Energi_Viborg_Arena	Normal	100
 Sport	Football	Viborg_FF	FC_Kobenhavn	16:00	14/12	Energi_Viborg_Arena	Normal	100
-Music	Rap	Rotte_Records	60_min	20:00	24/12	TemaBar_Viborg	Normal	100
+Sport	Football	Viborg_FF	FC_Barcelona	21:00	04/04	Energi_Viborg_Arena	Normal	100
+Sport	Football	Viborg_FF	FC_Kobenhavn	16:00	14/12	Energi_Viborg_Arena	Normal	100
+Sport	Football	Viborg_FF	FC_Kobenhavn	16:00	14/12	Energi_Viborg_Arena	Normal	100
 Sport	Football	Viborg_FF	FC_Barcelona	21:00	04/04	Energi_Viborg_Arena	Normal	100
