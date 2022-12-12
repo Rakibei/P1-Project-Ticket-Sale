@@ -435,7 +435,7 @@ void run_return_tickets(profile_struct* my_profile)
 
     printf("Your new balance is = %d",my_profile->balance);
 
-    all_tickets[ticket_number+1].available = all_tickets[ticket_number+1].available + 1;
+    all_tickets[ticket_number].available = all_tickets[ticket_number].available + 1;
 }
 
 
