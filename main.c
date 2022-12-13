@@ -128,6 +128,7 @@ void regis(int* nr_users)
 {
     int x;
     char username[30], password[30], repassword[30];
+    bool success = false;
     FILE *sc;
 
     sc = fopen("../Server/server_users.txt","a");//a means "update file or create new"
@@ -140,23 +141,25 @@ void regis(int* nr_users)
     printf("Please choose a username and password.\n");
     printf("Enter Username:\n");
     scanf(" %s", username);
-    printf("Enter Password:\n");
-    scanf(" %s", password);
-    printf("Re-enter Password:\n");
-    scanf(" %s", repassword);
+    do{
+        printf("Enter Password:\n");
+        scanf(" %s", password);
+        printf("Re-enter Password:\n");
+        scanf(" %s", repassword);
 
-    if (strcmp(repassword,password) == 0)
-    {
-        fprintf(sc, "%s\t%s\n", username, password);
-        fclose(sc);
-        printf("\nRegistration Successful!\n");
-        *nr_users = *nr_users + 1;
-    }
-    else
-    {
-        printf("Passwords did not match\n");
-        regis(nr_users);
-    }
+        if (strcmp(repassword, password) == 0)
+        {
+            fprintf(sc, "%s\t%s\n", username, password);
+            fclose(sc);
+            printf("\nRegistration Successful!\n");
+            *nr_users = *nr_users + 1;
+            success = true;
+        }
+        else
+        {
+            printf("Passwords did not match\n");
+        }
+    } while(success == false);
 }
 //###########################################################################//
 //                               Tickets                                     //
