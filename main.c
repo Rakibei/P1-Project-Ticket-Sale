@@ -33,6 +33,7 @@ void main_menu(profile_struct *user, int choice, int* nr_users, bool next)
                 break;
             case 3:
                 update_nr_users_on_server(*nr_users);
+                update_balance(user, *nr_users);
                 exit(0);
                 break;
             default:
@@ -73,6 +74,7 @@ void run_navigation_menu(profile_struct *user, int* nr_users, bool next)//this i
 
             case 4:
                 update_nr_users_on_server(*nr_users);
+                update_balance(user, *nr_users);
                 exit(0);
 
             default:
@@ -103,11 +105,12 @@ void login(profile_struct* user, int nr_users, bool* next)
 
     for(int i = 0; i < nr_users; i++)
     {
-        fscanf(sc, "%s\t%s", placeholder.username, placeholder.password);
+        fscanf(sc, "%s\t%s\t%d", placeholder.username, placeholder.password, &placeholder.balance);
         if(strcmp(username, placeholder.username) == 0 && strcmp(password, placeholder.password) == 0)
         {
             printf("\nSuccessful Login\n");
             strcpy(user->username, username);
+            user->balance = placeholder.balance;
             initialize(user);
             *next = true;
             break;
@@ -147,7 +150,7 @@ void regis(int* nr_users)
 
         if (strcmp(repassword, password) == 0)
         {
-            fprintf(sc, "%s\t%s\n", username, password);
+            fprintf(sc, "%s\t%s\t%d\n", username, password, 0);
             fclose(sc);
             printf("\nRegistration Successful!\n");
             *nr_users = *nr_users + 1;
@@ -194,8 +197,7 @@ void view_tickets(int nr_tickets, profile_struct* user)
     do{
         if(strcmp("Sport",tickets[temp].category) == 0)
         {
-            printf("|    Date & time    |    Home team    |    Away team    |          Venue          |    Tickets left    |\n");
-            printf("Number %d)\n\t%s \t%s \t- \t%s  \tvs \t%s \t- \t%s: \t%d available\n", (temp + 1),
+            printf("%d)\t%s %s\t-\t%s vs %s\t-\t%s:\t%d available\n", (temp + 1),
                    tickets[temp].date,
                    tickets[temp].time,
                    tickets[temp].performing,
@@ -205,8 +207,7 @@ void view_tickets(int nr_tickets, profile_struct* user)
         }
         else
         {
-            printf("|    Date & time    |        Performing        |          Venue          |    Tickets left    |\n");
-            printf("Number %d)\n\t%s \t%s \t- \t%s(%s)\t- \t%s: \t\t%d available\n", (temp + 1),
+            printf("%d)\t%s %s\t-\t%s(%s)\t-\t%s:\t%d available\n", (temp + 1),
                    tickets[temp].date,
                    tickets[temp].time,
                    tickets[temp].performing,
@@ -222,6 +223,7 @@ void view_tickets(int nr_tickets, profile_struct* user)
         {
             case 1:
                 run_purchase_tickets(1, user, tickets[temp]);
+                choice = -1;
                 break;
             case 2:
                 temp = temp + 1;
@@ -365,7 +367,7 @@ void run_return_tickets(profile_struct* my_profile)
     char ch;
     int j = 0;
     int ticket_number;
-    ticket_struct all_tickets[50];
+    ticket_struct user_tickets[50];
     char txt[] = ".txt";
     char filename[35] = "../Server/";
     strcat(filename, my_profile->username);
@@ -381,15 +383,15 @@ void run_return_tickets(profile_struct* my_profile)
 
     do{
         fscanf(file, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
-               all_tickets[j].category,
-               all_tickets[j].genre,
-               all_tickets[j].performing,
-               all_tickets[j].opponent,
-               all_tickets[j].time,
-               all_tickets[j].date,
-               all_tickets[j].location,
-               all_tickets[j].type,
-               all_tickets[j].price);
+               user_tickets[j].category,
+               user_tickets[j].genre,
+               user_tickets[j].performing,
+               user_tickets[j].opponent,
+               user_tickets[j].time,
+               user_tickets[j].date,
+               user_tickets[j].location,
+               user_tickets[j].type,
+               user_tickets[j].price);
         j++;
     } while ((ch = fgetc(file)) != EOF);
     fclose(file);
@@ -399,15 +401,15 @@ void run_return_tickets(profile_struct* my_profile)
     {
         printf("[%d] %s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
                i,
-               all_tickets[i].category,
-               all_tickets[i].genre,
-               all_tickets[i].performing,
-               all_tickets[i].opponent,
-               all_tickets[i].time,
-               all_tickets[i].date,
-               all_tickets[i].location,
-               all_tickets[i].type,
-               all_tickets[i].price);
+               user_tickets[i].category,
+               user_tickets[i].genre,
+               user_tickets[i].performing,
+               user_tickets[i].opponent,
+               user_tickets[i].time,
+               user_tickets[i].date,
+               user_tickets[i].location,
+               user_tickets[i].type,
+               user_tickets[i].price);
     }
     scanf("%d",&ticket_number);
 
@@ -417,26 +419,24 @@ void run_return_tickets(profile_struct* my_profile)
         if(i != ticket_number)
         {
             fprintf(file,"\n%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
-                    all_tickets[i].category,
-                    all_tickets[i].genre,
-                    all_tickets[i].performing,
-                    all_tickets[i].opponent,
-                    all_tickets[i].time,
-                    all_tickets[i].date,
-                    all_tickets[i].location,
-                    all_tickets[i].type,
-                    all_tickets[i].price);
+                    user_tickets[i].category,
+                    user_tickets[i].genre,
+                    user_tickets[i].performing,
+                    user_tickets[i].opponent,
+                    user_tickets[i].time,
+                    user_tickets[i].date,
+                    user_tickets[i].location,
+                    user_tickets[i].type,
+                    user_tickets[i].price);
         }
     }
     fclose(file);
 
+    my_profile->balance = my_profile->balance + atoi(user_tickets[ticket_number].price);
     printf("The ticket has been returned! Your new balance will be shown below.\n");
+    printf("Your new balance is = %d\n",my_profile->balance);
 
-    my_profile->balance = my_profile->balance + atoi(all_tickets[ticket_number].price);
-
-    printf("Your new balance is = %d",my_profile->balance);
-
-    all_tickets[ticket_number].available = all_tickets[ticket_number].available + 1;
+    update_available_tickets(user_tickets[ticket_number], false);
 }
 
 
@@ -466,7 +466,7 @@ void run_profile(profile_struct* user, int* logout, int* nr_users,profile_struct
                 run_return_tickets(my_profile);
                 break;
             case 3:
-                profile_balance(user);
+                profile_balance(user, *nr_users);
                 break;
             case 4:
                 delete_profile(user, nr_users);
@@ -505,7 +505,7 @@ void print_tickets(profile_struct* my_profile)
     fclose(file);
 }
 
-void profile_balance(profile_struct* my_profile)
+void profile_balance(profile_struct* my_profile, int nr_users)
 {
     int b_choice;
 
@@ -541,7 +541,7 @@ void delete_profile( profile_struct* user, int* nr_users)
     {
         for(int i = 0; i < *nr_users; i++)
         {
-            fscanf(file,"%s %s", user_list[i].username, user_list[i].password);
+            fscanf(file,"%s\t%s\t%d", user_list[i].username, user_list[i].password, &user_list[i].balance);
         }
     }
     fclose(file);
@@ -559,7 +559,7 @@ void delete_profile( profile_struct* user, int* nr_users)
             {}
             else
             {
-                fprintf(file,"%s %s\n", user_list[i].username, user_list[i].password);
+                fprintf(file,"%s\t%s\t%d\n", user_list[i].username, user_list[i].password, user_list[i].balance);
             }
         }
     }
@@ -594,4 +594,6 @@ void update_profile(ticket_struct new_ticket, profile_struct* my_profile, int pr
             new_ticket.type,
             new_ticket.price);
     fclose(storage);
+
+    update_available_tickets(new_ticket, true);
 }
