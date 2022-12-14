@@ -9,8 +9,6 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define MAX_LINES 100
-#define MAX_LEN 1000
 #define NORMAL_PRICE 100 // DELETE LATER USED FOR TESTING
 #define VIP_PRICE 200 // DELETE LATER USED FOR TESTING
 
@@ -45,6 +43,7 @@ typedef struct{
 typedef struct{
     char username[30];
     char password[30];
+    int balance;
 } accounts;
 
 void login(profile_struct *user, int nr_users, bool *next);
@@ -54,7 +53,7 @@ void run_navigation_menu(profile_struct *user, int* nr_users, bool next);
 void main_menu(profile_struct *user, int choice, int* nr_users, bool next);
 void run_profile(profile_struct *user, int* logout, int* nr_users,profile_struct* my_profile);
 void print_tickets(profile_struct* my_profile);
-void profile_balance(profile_struct* my_profile);
+void profile_balance(profile_struct* my_profile, int nr_users);
 void delete_profile(profile_struct* user, int* nr_users);
 void run_purchase_tickets(int choice, profile_struct* user, ticket_struct new_ticket);
 int amount_of_tickets(int *number_of_tickets, int *amount_choice);
@@ -68,4 +67,6 @@ void return_function(int *tickets_in_profile,profile_struct* my_profile);
 void initialize(profile_struct* my_profile);
 void nr_users_on_server(int* nr_users);
 void update_nr_users_on_server(int nr_users);
+void update_available_tickets(ticket_struct changed_ticket, bool buy);
+void update_balance(profile_struct* my_profile, int nr_users);
 #endif //P1_PROJECT_DATA_H
