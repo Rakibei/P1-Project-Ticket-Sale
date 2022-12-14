@@ -32,7 +32,6 @@ void main_menu(profile_struct *user, int choice, int* nr_users, bool next)
                 regis(nr_users);
                 break;
             case 3:
-                printf("%d", *nr_users);
                 update_nr_users_on_server(*nr_users);
                 exit(0);
                 break;
@@ -73,7 +72,6 @@ void run_navigation_menu(profile_struct *user, int* nr_users, bool next)//this i
                 break;
 
             case 4:
-                printf("%d", *nr_users);
                 update_nr_users_on_server(*nr_users);
                 exit(0);
 
