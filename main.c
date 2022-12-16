@@ -127,7 +127,6 @@ void login(profile_struct* user, int nr_users, bool* next)
 
 void regis(int* nr_users)
 {
-    int x;
     char username[30], password[30], repassword[30];
     bool success = false;
     FILE *sc;
@@ -253,7 +252,7 @@ void view_tickets(int nr_tickets, profile_struct* user)
 
 void run_purchase_tickets (int choice, profile_struct* user, ticket_struct new_ticket)
 {
-    int number_of_tickets,  amount_choice,  ticket_type,  ticket_choice,  total,  checkout_choice;
+    int number_of_tickets,  amount_choice,  ticket_type,  ticket_choice,  checkout_choice;
 
     do{
         if (amount_of_tickets(&number_of_tickets, &amount_choice) == 1)
@@ -466,7 +465,7 @@ void run_profile(profile_struct* user, int* logout, int* nr_users,profile_struct
                 run_return_tickets(my_profile);
                 break;
             case 3:
-                profile_balance(user, *nr_users);
+                profile_balance(user);
                 break;
             case 4:
                 delete_profile(user, nr_users);
@@ -505,7 +504,7 @@ void print_tickets(profile_struct* my_profile)
     fclose(file);
 }
 
-void profile_balance(profile_struct* my_profile, int nr_users)
+void profile_balance(profile_struct* my_profile)
 {
     int b_choice;
 
